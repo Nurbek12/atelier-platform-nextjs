@@ -29,9 +29,9 @@ export function ServiceCard({ item }: { item: any }) {
                         <p className='mt-2 text-center text-[15px]'>{item.description}</p>
                     </div>
 
-                    <Button type="submit" className="w-full">
+                    {/* <Button type="submit" className="w-full">
                         Заказать
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
         // </Card>

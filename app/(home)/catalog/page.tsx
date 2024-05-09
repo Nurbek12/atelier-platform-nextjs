@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ServiceCard } from '../../components/service-card'
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+// import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 
 const items = [
     { title: 'Пошив одежды по индивидуальным меркам', description: 'Мы создаем уникальные костюмы, платья, юбки и блузы, адаптированные к вашим индивидуальным меркам. Наша команда портных обеспечит вас индивидуальным подходом, качественными материалами и превосходным исполнением.' },
@@ -89,7 +89,7 @@ export default function Contact() {
                         {
                             items.map((item,index) => <ServiceCard item={item} key={index} />)
                         }
-                        <div className="mt-4 col-span-1 md:col-span-2">
+                        {/* <div className="mt-4 col-span-1 md:col-span-2">
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationItem>
@@ -106,7 +106,7 @@ export default function Contact() {
                                     </PaginationItem>
                                 </PaginationContent>
                             </Pagination>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

@@ -3,18 +3,17 @@
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import { BarChartBig, LogOut, Shirt, User, ShoppingCart, BriefcaseBusinessIcon, Briefcase } from 'lucide-react'
+import { BarChartBig, LogOut, MessageCircle, Shirt, User, ShoppingCart, BriefcaseBusinessIcon, Briefcase } from 'lucide-react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from '../components/theme-toggle'
 
 const dashboard_links = [
     { name: "Statistics", href: "/admin", icon: BarChartBig },
-    { name: "Clients", href: "/admin/clients", icon: User },
-    { name: "Tailors", href: "/admin/tailors", icon: Briefcase },
+    { name: "Clients", href: "/admin/users", icon: User },
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Services", href: "/admin/services", icon: BriefcaseBusinessIcon },
-    // { name: "", href: "", icon: "" },
+    { name: "Messages", href: "/admin/reviews", icon: MessageCircle },
 ]
 
 export function AdminNav() {

@@ -2,6 +2,7 @@ import "../globals.css"
 import Image from 'next/image'
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "../components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider
           enableSystem
@@ -38,6 +39,7 @@ export default function RootLayout({
                 />
               </div>
             </div>
+            <Toaster />
         </ThemeProvider>
       </body>
     </html>

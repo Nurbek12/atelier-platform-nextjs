@@ -1,15 +1,137 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs https//pris.ly/d/prisma-schema
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Try Prisma Accelerate https//pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int @id @default(autoincrement())
+
+  email String
+  phone String
+  password String
+  first_name String
+  role String
+
+  last_name String?
+  avatar String?
+  experience String?
+
+  client_orders Order[] @relation("CLIENT")
+  tailor_orders Order[] @relation("TAILOR")
+  
+  chest Int?
+  waist Int?
+  hips Int?
+  sleeve Int?
+  pr_leng Int?
+  others Int?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+
+  client_id Int?
+  client User? @relation("CLIENT", fields: [client_id], references: [id])
+
+  tailor_id Int?
+  tailor User? @relation("TAILOR", fields: [tailor_id], references: [id])
+  type_clothing String
+  preferred_fabric String
+  requirements String
+  contact_times_start String
+  contact_times_end String
+  files OrderFile[]
+
+  status String
+
+  first_name String?
+  last_name String?
+  email String?
+  phone String?
+
+  chest Int?
+  waist Int?
+  hips Int?
+  sleeve Int?
+  pr_leng Int?
+  others Int?
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model OrderFile {
+    id Int @id @default(autoincrement())
+
+    name String
+    size Int
+    file String
+    order_id Int
+    order Order @relation(fields: [order_id], references: [id])
+    
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  first_name String
+  last_name String
+  email String
+  phone String?
+  message String
+  rate Int
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+// model Transaction {
+//   id Int @id @default(autoincrement())
+
+  
+  
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
+// }
+
+model Service {
+  id Int @id @default(autoincrement())
+
+  title String
+  price Int
+  style String
+  type String
+  description String
+
+  images ServiceImage[]
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model ServiceImage {
+  id Int @id @default(autoincrement())
+
+  image String
+  thumbnail String
+  service_id Int
+  service Service @relation(fields: [service_id], references: [id])
+  
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

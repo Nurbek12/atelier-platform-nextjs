@@ -41,11 +41,30 @@ export interface IMeansure {
 export interface IOrder {
     id: number
 
-    client: IUser
+    client_id?: number
+    client?: IUser
+
+    tailor_id?: number
+    tailor?: IUser
     type_clothing: string
+
     preferred_fabric: string
     requirements: string
-    contact_times: string
+    contact_times_start: string
+    contact_times_end: string
+
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+
+    chest: number
+    waist: number
+    hips: number
+    sleeve: number
+    pr_leng: number
+    others: number
+    
     files: IOrderFile[]
 
     status: "new" | "process" | "finish"
@@ -68,8 +87,10 @@ export interface IOrderFile {
 export interface IReview {
     id: number
 
-    client: string
-    tailor: string
+    first_name: string
+    last_name: string
+    email: string
+    phone?: string
     message: string
     rate: number
     
@@ -87,16 +108,18 @@ export interface ITransaction {
 }
 
 export interface IService {
-    id: number
+    id?: number
 
+    title: string
     price: number
     style: string
     type: string
+    description: string
 
-    images: IServiceImage
+    images?: IServiceImage
     
-    created_at: string
-    updated_at: string
+    created_at?: string
+    updated_at?: string
 }
 
 export interface IServiceImage {

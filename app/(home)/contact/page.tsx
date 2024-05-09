@@ -1,6 +1,16 @@
+'use client'
+
+import { toast } from 'sonner'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { MapPin, Phone, MailIcon, Hash, Facebook, Twitter, Instagram, Linkedin, Send, Clock } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Star, StarOff, MapPin, Phone, MailIcon, Hash, Facebook, Twitter, Instagram, Linkedin, Send, Clock } from 'lucide-react'
 import Link from "next/link"
+import { useState } from "react"
+import { createReview } from '@/app/apiref/reviews'
+import { cn } from '@/lib/utils'
 
 const social_items = [
     { icon: Facebook, url: '' },
@@ -11,6 +21,32 @@ const social_items = [
 ]
 
 export default function Contact() {
+    const [loading, setLoading] = useState(false)
+    const [review, setReview] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        message: "",
+        rate: 0
+    })
+
+    const handleSend = async (e: any) => {
+        e.preventDefault()
+        setLoading(true)
+        await createReview(review)
+        setReview({
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            message: "",
+            rate: 1
+        })
+        setLoading(false)
+        toast('Successfull Sended!')
+    }
+
     return (
         <>
             <section className="container pt-20 pb-10 bg-background min-h-screen">
@@ -69,7 +105,64 @@ export default function Contact() {
                         </iframe>
                     </div>
                 </div>
-                <div className='text-center mt-12'>Благодарим вас за интерес к нашему ателье! Мы рады ответить на все ваши вопросы и помочь вам с вашими заказами.</div>
+                <div className="flex mt-6">
+                    <Card className="mx-auto md:max-w-[500px]">
+                        <CardHeader>
+                            <CardTitle className="text-xl">Благодарим вас за интерес к нашему ателье!</CardTitle>
+                            <CardDescription>Мы рады ответить на все ваши вопросы и помочь вам с вашими заказами.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={handleSend} className="grid gap-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid gap-2">
+                                        <label htmlFor="first-name">First Name</label>
+                                        <Input id="first-name" placeholder="First name"
+                                        onChange={e => setReview({...review, first_name: e.target.value})} value={review.first_name} />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <label htmlFor="last-name">Last Name</label>
+                                        <Input id="last-name" placeholder="Last name"
+                                        onChange={e => setReview({...review, last_name: e.target.value})} value={review.last_name} />
+                                    </div>
+                                </div>
+                                <div className="grid gap-2">
+                                    <label htmlFor="email">Email</label>
+                                    <Input
+                                        id="email"
+                                        type="text"
+                                        placeholder="example@mail.com"
+                                        onChange={e => setReview({...review, email: e.target.value})} value={review.email}
+                                        />
+                                </div>
+                                <div className="grid gap-2">
+                                    <label htmlFor="phone">Phone (optional)</label>
+                                    <Input
+                                        id="phone"
+                                        type="text"
+                                        placeholder="+998 __ ___ __ __"
+                                        onChange={e => setReview({...review, phone: e.target.value})} value={review.phone}
+                                        />
+                                </div>
+                                <div className="grid gap-2">
+                                    <label htmlFor="message">Message</label>
+                                    <Textarea id="message" rows={6} className="resize-none" placeholder="Write an message..."
+                                    onChange={e => setReview({...review, message: e.target.value})} value={review.message} />
+                                </div>
+                                <div className="flex py-2 items-center gap-2">
+                                    {
+                                        Array(5).fill(0).map((_,i) => <Star key={i} className={cn('cursor-pointer hover:opacity-100', i > review.rate ? 'opacity-50' : '')} onClick={() => setReview({...review, rate: i})} />)
+                                    }
+                                </div>
+                                <Button disabled={loading} type="submit" className="w-full">
+                                    {loading?'Sending...':'Send Message'}
+                                </Button>
+                            </form>
+                            <div className="mt-4">
+                                <p className="text-sm font-light">Не нашли нужную услугу? <Link href='/contact' className="underline">Свяжитесь с нами</Link>, и мы постараемся воплотить вашу модную мечту в жизнь!</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
             </section>
         </>
     )
