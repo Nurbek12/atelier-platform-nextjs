@@ -2,10 +2,15 @@ import { prisma } from '@/app/db'
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET() {
-    const result = await prisma.review.findMany({
-        orderBy: { id: 'desc' },
-    })
-    return NextResponse.json({ result })
+    try {
+        const result = await prisma.review.findMany({
+            orderBy: { id: 'desc' },
+        })
+        return NextResponse.json({ result })
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(false)
+    }
 }
 
 export async function POST(req: NextRequest) {

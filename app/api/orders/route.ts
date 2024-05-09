@@ -14,9 +14,14 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const data = await req.json()
-    const result = await prisma.order.create({ data })
-    return NextResponse.json({ result })
+    try {
+        const data = await req.json()
+        const result = await prisma.order.create({ data })
+        return NextResponse.json({ result })
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(false)
+    }
 }
 
 export async function PUT(req: NextRequest) {
