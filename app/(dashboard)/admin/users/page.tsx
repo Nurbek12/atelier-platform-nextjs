@@ -1,5 +1,6 @@
+'use client'
+
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
-import { getUsers } from '@/app/db/queries/services'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,7 +15,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 
-export default async function AdminUsers() {
+export default function AdminUsers() {
     return (
         <div>
             <div className="flex items-center w-full">
@@ -70,7 +71,7 @@ export default async function AdminUsers() {
                             <TableBody>
 
                                 {
-                                    (await getUsers()).map((item,i) => 
+                                    ([] as any[]).map((item,i) => 
                                         <TableRow key={i}>
                                             <TableCell className="hidden sm:table-cell">
                                                 {item.id}
