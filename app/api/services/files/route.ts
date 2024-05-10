@@ -1,9 +1,28 @@
 import { prisma } from '@/app/db'
+import { imgkit } from '@/app/utils/img-upload'
 import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(req: Request) {
-    const data = await req.json()
-    const result = await prisma.serviceImage.createMany({ data })
+export async function POST(req: NextRequest) {
+    const url = new URL(req.url).searchParams
+        const service_id = Number(url.get("service_id")) || 0
+        const formdata = await req.formData()
+        const images: any = []
+        await Promise.all(formdata.getAll('file').map(async (f: any) => {
+            const arb = await f.arrayBuffer()
+            const b = Buffer.from(new Uint8Array(arb))
+            const d = await imgkit.upload({
+                file: b,
+                folder: 'ateiler',
+                fileName: f.name,
+            })
+            
+            images.push({
+                image: d.url,
+                thumbnail: d.thumbnailUrl,
+                service_id
+            })
+        }))
+    const result = await prisma.serviceImage.createMany({ data: images })
     return NextResponse.json({ result })
 }
 

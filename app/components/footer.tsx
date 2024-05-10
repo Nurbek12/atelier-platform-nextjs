@@ -11,9 +11,6 @@ export function Footer() {
                             <a href="#" className="text-gray-400 hover:text-gray-500">
                                 <span>Facebook</span>
                             </a>
-                            <a href="#" className="text-yellow-500 hover:text-gray-500">
-                                <span>the team is on fire</span>
-                            </a>
                             <a href="#" className="text-gray-400 hover:text-blue-4      00">
                                 <span>X Twitter</span>
                             </a>

@@ -128,7 +128,7 @@ export interface IService {
     type: string
     description: string
 
-    images?: IServiceImage
+    images?: IServiceImage[]
     
     created_at?: string
     updated_at?: string

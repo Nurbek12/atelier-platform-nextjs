@@ -29,8 +29,8 @@ export default function About() {
                         <div className="col-span-2 h-[400px]">
                             <Image src="/nophoto.jpg" className="w-full h-full object-cover rounded" height={400} width={600} alt="image" />
                         </div>
-                        <img src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
-                        <img src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
+                        <Image src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
+                        <Image src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
                     </div>
 
                 </div>

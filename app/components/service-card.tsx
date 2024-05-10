@@ -1,39 +1,41 @@
-import type { IService } from '@/types'
 import Image from 'next/image'
-// import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card"
+import type { IService } from '@/types'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { useState } from 'react'
 
-export function ServiceCard({ item }: { item: any }) {
+export function ServiceCard({ item }: { item: IService }) {
+    const [image, setImage] = useState(0)
     return (
-        // <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
-            <div className='p-4 rounded-xl border'>
-                <div className='flex flex-col h-full'>
-                    <div className='mb-4 relative'>
-                        <Image
+        <div className='p-4 rounded-xl border'>
+            <div className='flex flex-col h-full'>
+                <div className='mb-4 relative'>
+                    <div className='h-[280px] overflow-hidden rounded'>
+                        <img
                             alt="Product image"
-                            className="aspect-square w-full rounded-md object-cover"
+                            className="h-full aspect-square w-full rounded-md object-cover"
                             height="300"
-                            src="/auth-bg.jpg"
+                            src={item.images?.[image].image || '/nophoto.jpg'}
                             width="700"
                             />
-                        <div className='w-full absolute bottom-4 flex justify-center gap-3 items-center'>
-                            <Button size='icon' className='w-4 h-4' variant='default'></Button>
-                            <Button size='icon' className='w-4 h-4' variant='outline'></Button>
-                            <Button size='icon' className='w-4 h-4' variant='outline'></Button>
-                            <Button size='icon' className='w-4 h-4' variant='outline'></Button>
-                        </div>
                     </div>
-
-                    <div className='flex-1 mb-4'>
-                        <h1 className='text-center font-medium text-lg'>{item.title}</h1>
-                        <p className='mt-2 text-center text-[15px]'>{item.description}</p>
+                    <div className='w-full absolute bottom-4 flex justify-center gap-3 items-center'>
+                        {
+                            item.images?.map((_,i) => <Button key={i} onClick={() => setImage(i)} size='icon' className='w-4 h-4' variant={i === image?'default':'outline'}></Button>)
+                        }
                     </div>
+                </div>
 
-                    {/* <Button type="submit" className="w-full">
-                        Заказать
-                    </Button> */}
+                <div className='flex-1 flex flex-col gap-1'>
+                    <h1 className='font-medium text-lg'>{item.title}</h1>
+                    <span className='text-xs text-gray-700 dark:text-gray-300'>{item.type}</span>
+                    <p className='mt-2 text-[14px] flex-1'>{item.description}</p>
+                    <div className='flex items-center justify-between'>
+                        <span className='text-yellow-600 dark:text-yellow-400 text-xl'>{Number(item.price||100000).toLocaleString('ru-RU')} sum</span>
+                        <Badge>{item.style}</Badge>
+                    </div>
                 </div>
             </div>
-        // </Card>
+        </div>
     )
 }

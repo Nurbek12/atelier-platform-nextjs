@@ -1,7 +1,7 @@
 'use client'
 
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
-// import { getUsers } from '@/app/db/queries/services'
+import { service_styles, service_types } from '@/constants'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,7 +14,7 @@ import { FormEvent, useState, useEffect } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 import type { IService } from '@/types'
-import { createService, deleteService, getServices, updateService } from '@/app/apiref/services'
+import { createService, deleteService, getServices, updateService, createServiceImages } from '@/app/apiref/services'
 
 export default function AdminUsers() {
     const [item, setItem] = useState<IService>({
@@ -31,7 +31,7 @@ export default function AdminUsers() {
     const [files, setFiles] = useState<any[]>([])
 
     const pushFiles = (fls: FileList) => {
-        if(files.length >= 4) return
+        // if(files.length >= 4) return
         setFiles([...files, ...Array.from(fls)])
     }
 
@@ -55,26 +55,35 @@ export default function AdminUsers() {
         e.preventDefault()
         const form_data = new FormData()
 
-        files.map(f => form_data.append('files', f))
+        files.map(f => form_data.append('file', f))
         
         try {
+            let id: number | null = null
             setPostLoading(true)
+            delete item.images
             if(item.id) {
-                const id = item.id
+                id = item.id
                 delete item.id
                 const { data } = await updateService(id, item)
                 setItems(items.map(i => i.id === id ? data.result : i))
             } else {
                 const { data } = await createService(item)
                 setItems([...items, data.result])
+                id = data.result.id
             }
             
+            if(files.length > 0) {
+                const { data } = await createServiceImages(id!, form_data)
+                setItems(items.map(i => i.id === id ? {...i, images: [...i.images||[] as any, ...data.result ]} as any : i))
+            }
+
             closeDialog()
         } catch (error) {
             console.log(error)
         } finally {
             setPostLoading(false)
         }
+
     }
 
     const closeDialog = () => {
@@ -180,7 +189,7 @@ export default function AdminUsers() {
                             </TableBody>
                         </Table>
                     </CardContent>
-                    <CardFooter>
+                    {/* <CardFooter>
                         <div className='flex items-center justify-between w-full'>
                             <Select>
                                 <SelectTrigger className="w-[180px]">
@@ -208,7 +217,7 @@ export default function AdminUsers() {
                                 </Pagination>
                             </div>
                         </div>
-                    </CardFooter>
+                    </CardFooter> */}
                 </Card>
             </div>
             <Dialog open={dialog} onOpenChange={(o) => setDialog(o)}>
@@ -235,9 +244,9 @@ export default function AdminUsers() {
                                         <SelectValue placeholder="Style" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Style 1">Style 1</SelectItem>
-                                        <SelectItem value="Style 2">Style 2</SelectItem>
-                                        <SelectItem value="Style 3">Style 3</SelectItem>
+                                        {
+                                            service_styles.map((s,i) => <SelectItem value={s} key={i}>{s}</SelectItem>)
+                                        }
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -248,24 +257,32 @@ export default function AdminUsers() {
                                         <SelectValue placeholder="Type" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Type 1">Type 1</SelectItem>
-                                        <SelectItem value="Type 2">Type 2</SelectItem>
-                                        <SelectItem value="Type 3">Type 3</SelectItem>
+                                        {
+                                            service_types.map((s,i) => <SelectItem value={s} key={i}>{s}</SelectItem>)
+                                        }
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div>
                                 <label htmlFor="description">Description</label>
-                                <Textarea required onChange={e => setItem({...item, description: e.target.value})} value={item.description} className="resize-none" placeholder="Description" rows={6} />
+                                <Textarea required onChange={e => setItem({...item, description: e.target.value})} value={item.description} className="resize-none" id="Description" placeholder="Description" rows={6} />
                             </div>
+                            {item.images?.length! > 0 && <div>
+                                <label>Images</label>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {
+                                        item.images?.map((img, i) => <img key={i} src={img.thumbnail} className="w-full h-full object-cover rounded" />)
+                                    }
+                                </div>
+                            </div>}
                             <div className="grid grid-cols-4 place-items-center gap-2">
-                                <input max={4-files.length} hidden id="service-create-files" type="file" multiple accept="image/*" onChange={e => pushFiles(e.target.files!)} />
+                                <input hidden id="service-create-files" type="file" multiple accept="image/*" onChange={e => pushFiles(e.target.files!)} />
                                 {
                                     files.map((f,i) => 
                                         <Image key={i} onDoubleClick={() => setFiles(files.filter((_,j) => j !== i))} src={URL.createObjectURL(f)} className='object-cover w-full h-full rounded'
                                             height={300} width={300} alt='image' />)
                                 }
-                                <button onClick={() => document.getElementById('service-create-files')?.click()} className="hover:bg-gray-200/30 flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
+                                <button type="button" onClick={() => document.getElementById('service-create-files')?.click()} className="hover:bg-gray-200/30 flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
                                     <Upload className="h-4 w-4 text-muted-foreground" />
                                     <span className="sr-only">Upload</span>
                                 </button>

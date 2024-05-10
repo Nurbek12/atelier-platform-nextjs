@@ -1,20 +1,64 @@
+'use client'
+
 import Link from "next/link"
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { service_styles, service_types } from '@/constants'
 import { ServiceCard } from '../../components/service-card'
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-// import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import { useState, useEffect } from "react"
+import { getServices } from '@/app/apiref/services'
+import lodash from 'lodash'
+import { IService } from "@/types"
 
-const items = [
-    { title: 'Пошив одежды по индивидуальным меркам', description: 'Мы создаем уникальные костюмы, платья, юбки и блузы, адаптированные к вашим индивидуальным меркам. Наша команда портных обеспечит вас индивидуальным подходом, качественными материалами и превосходным исполнением.' },
-    { title: 'Модернизация и ремонт одежды', description: 'У нас вы можете обновить свою любимую одежду, добавив новые элементы декора, изменить фасон или размер, а также выполнить качественный ремонт изделий.' },
-    { title: 'Консультации по стилю и моде', description: 'Наши опытные стилисты и дизайнеры помогут вам подобрать идеальный образ для любого случая, учитывая ваш индивидуальный стиль и предпочтения.' },
-    { title: 'Подгонка и изменение размеров', description: 'Мы предлагаем услуги по подгонке и изменению размеров готовой одежды, чтобы она идеально сидела на вас и подчеркивала ваши достоинства.' },
-    { title: 'Изготовление аксессуаров', description: 'Кроме одежды, мы также создаем стильные и оригинальные аксессуары: сумки, пояса, шляпы и многое другое, чтобы ваш образ был полностью завершенным и неповторимым.' },
-]
+const lodashSearch = lodash.debounce((cb:any) => {
+    cb()
+}, 500)
 
 export default function Contact() {
+    const router = useRouter()
+    const pathname = usePathname()
+    const params = useSearchParams()
+    const [items, setItems] = useState<IService[]>([])
+    
+    const [filters, setFilters] = useState({
+        title: params.get('title') || '',
+        min_price: parseInt(params.get('min_price')||'0'),
+        max_price: parseInt(params.get('max_price')||'0'),
+        type: params.get('type') || "",
+        style: params.get('style') || "",
+    })
+
+    useEffect(() => {
+        setValue('title', filters.title)
+    }, [])
+
+    const setValue = (key: keyof typeof filters, value: string | number) => {
+        if (params.get(key) === value) return
+        const updatedQuery: any = {}
+
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [key]: value,
+        }))
+        
+        if (value === 0 || value === '') delete updatedQuery[key]
+        else (updatedQuery[key] as any) = value;
+
+        lodashSearch(() => {
+            fetchItems(updatedQuery)
+        })
+
+        router.replace(`${pathname}?${new URLSearchParams(updatedQuery as any).toString()}`);
+    }
+
+    const fetchItems = async (ftrs: any) => {
+        const { data } = await getServices(ftrs)
+        setItems(data.result)
+    }
+
     return (
         <>
             <section className="container py-20 bg-background min-h-screen">
@@ -32,52 +76,58 @@ export default function Contact() {
                             <CardContent>
                                 <div className="grid gap-4">
                                     <div className="grid gap-2">
-                                        <label htmlFor="email">Name</label>
+                                        <label htmlFor="title">Name</label>
                                         <Input
-                                            id="email"
+                                            id="title"
                                             type="text"
                                             placeholder="Example"
+                                            value={filters.title}
+                                            onChange={e => setValue('title', e.target.value)}
                                             />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <label htmlFor="first-name">Min price</label>
-                                            <Input type="number" id="first-name" placeholder="0" min={0} />
+                                            <label htmlFor="min-price">Min price</label>
+                                            <Input type="number" id="min-price" placeholder="0" min={0}
+                                                value={filters.min_price}
+                                                onChange={e => setValue('min_price', +e.target.value)} />
                                         </div>
                                         <div className="grid gap-2">
-                                            <label htmlFor="last-name">Max price</label>
-                                            <Input type="number" id="last-name" placeholder="1 000 000" min={0} />
+                                            <label htmlFor="max-price">Max price</label>
+                                            <Input type="number" id="max-price" placeholder="1 000 000" min={0}
+                                                value={filters.max_price}
+                                                onChange={e => setValue('max_price', +e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="grid gap-2">
                                         <label>Type</label>
-                                        <Select>
+                                        <Select value={filters.type} onValueChange={e => setValue('type', e)}>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Type" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="light">Light</SelectItem>
-                                                <SelectItem value="dark">Dark</SelectItem>
-                                                <SelectItem value="system">System</SelectItem>
+                                                {
+                                                    service_types.map((s,i) => <SelectItem value={s} key={i}>{s}</SelectItem>)
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="grid gap-2">
                                         <label>Style</label>
-                                        <Select>
+                                        <Select value={filters.style} onValueChange={e => setValue('style', e)}>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Style" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="light">Light</SelectItem>
-                                                <SelectItem value="dark">Dark</SelectItem>
-                                                <SelectItem value="system">System</SelectItem>
+                                                {
+                                                    service_styles.map((s,i) => <SelectItem value={s} key={i}>{s}</SelectItem>)
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <Button type="submit" className="w-full">
+                                    {/* <Button type="submit" className="w-full">
                                         Find Services
-                                    </Button>
+                                    </Button> */}
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm font-light">Не нашли нужную услугу? <Link href='/contact' className="underline">Свяжитесь с нами</Link>, и мы постараемся воплотить вашу модную мечту в жизнь!</p>
@@ -87,26 +137,11 @@ export default function Contact() {
                     </div>
                     <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                         {
+                            items.length === 0 && <div className="col-span-1 md:col-span-2 text-center text-gray-500 dark:text-gray-300 text-sm">Items not found</div>
+                        }
+                        {
                             items.map((item,index) => <ServiceCard item={item} key={index} />)
                         }
-                        {/* <div className="mt-4 col-span-1 md:col-span-2">
-                            <Pagination>
-                                <PaginationContent>
-                                    <PaginationItem>
-                                        <PaginationPrevious />
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink>1</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationEllipsis />
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationNext />
-                                    </PaginationItem>
-                                </PaginationContent>
-                            </Pagination>
-                        </div> */}
                     </div>
                 </div>
             </section>

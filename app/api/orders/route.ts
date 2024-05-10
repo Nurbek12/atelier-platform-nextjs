@@ -39,6 +39,7 @@ export async function PUT(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     const url = new URL(req.url).searchParams
     const id = Number(url.get("id")) || 0
+    await prisma.orderFile.deleteMany({ where: { order_id: id } })
     await prisma.order.delete({ where: { id } })
     return NextResponse.json({ result: true })
 }
