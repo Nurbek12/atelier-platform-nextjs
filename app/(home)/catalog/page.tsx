@@ -8,7 +8,7 @@ import { service_styles, service_types } from '@/constants'
 import { ServiceCard } from '../../components/service-card'
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import { getServices } from '@/app/apiref/services'
 import lodash from 'lodash'
 import { IService } from "@/types"
@@ -60,7 +60,7 @@ export default function Contact() {
     }
 
     return (
-        <Suspense>
+        <>
             <section className="container py-20 bg-background min-h-screen">
                 <div className="py-6 text-center">
                     <h1 className="text-xl md:text-2xl font-extrabold">Добро пожаловать в наш каталог услуг!</h1>
@@ -145,6 +145,6 @@ export default function Contact() {
                     </div>
                 </div>
             </section>
-        </Suspense>
+        </>
     )
 }
