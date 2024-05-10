@@ -7,6 +7,8 @@ import { BarChartBig, LogOut, MessageCircle, Shirt, User, ShoppingCart, Briefcas
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from '../components/theme-toggle'
+import { authLogout } from '@/app/apiref/auth'
+import { useRouter } from 'next/navigation'
 
 const dashboard_links = [
     { name: "Statistics", href: "/admin", icon: BarChartBig },
@@ -17,7 +19,12 @@ const dashboard_links = [
 ]
 
 export function AdminNav() {
+    const router = useRouter()
     const pathname = usePathname()
+    const handleLogout = async () => {
+        await authLogout()
+        router.push('/')
+    }
 
     return (
         <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
@@ -48,11 +55,9 @@ export function AdminNav() {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Link href="/">
-                                <Button variant="outline" size="icon" className="mt-auto rounded-lg" aria-label="Account">
-                                    <LogOut className="size-5" />
-                                </Button>
-                            </Link>
+                            <Button onClick={() => handleLogout()} variant="outline" size="icon" className="mt-auto rounded-lg" aria-label="Account">
+                                <LogOut className="size-5" />
+                            </Button>
                         </TooltipTrigger>
                         <TooltipContent side="right" sideOffset={5}>Account</TooltipContent>
                     </Tooltip>

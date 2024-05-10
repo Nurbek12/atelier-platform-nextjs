@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
     
     if(user.password !== body.password) return NextResponse.json({ result: false })
 
-    const token = jwt.sign({ id: user.id }, "jwt_secret_key", { expiresIn: '4h' })
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: '4h' })
 
     const response = NextResponse.json({ result: { token, user } })
 
     response.cookies.set('token', token, { httpOnly: true, maxAge: 4 * 60 * 60 * 1000 })
-
+    
     return response
 }

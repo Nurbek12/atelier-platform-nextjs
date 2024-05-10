@@ -10,6 +10,8 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
+    const fuser = await prisma.user.findFirst({ where: { email: data.email } })
+    if(fuser) return NextResponse.json({ result: false })
     if(!data?.role) data.role = 'client'
     const result = await prisma.user.create({ data })
     return NextResponse.json({ result })

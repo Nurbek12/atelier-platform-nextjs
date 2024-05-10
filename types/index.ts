@@ -1,17 +1,29 @@
 export interface IUser {
-    id: number
+    id?: number
 
-    first_name: string
-    last_name: string
-    phone: string
     email: string
-    avatar: string
-    experience: string
+    phone: string
+    password?: string
+    first_name: string
+
+    last_name?: string
+    avatar?: string
+    experience?: string
+
+    client_orders?: IOrder[]
+    tailor_orders?: IOrder[]
+    
+    chest?: number
+    waist?: number
+    hips?: number
+    sleeve?: number
+    pr_leng?: number
+    others?: number
 
     role: "admin" | "tailor" | "client"
 
-    created_at: string
-    updated_at: string
+    created_at?: string
+    updated_at?: string
 }
 
 export interface ITypeClothing {

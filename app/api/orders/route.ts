@@ -1,4 +1,5 @@
 import { prisma } from '@/app/db'
+import { sendMail } from '@/app/utils/mail'
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET() {
@@ -28,7 +29,10 @@ export async function PUT(req: NextRequest) {
     const url = new URL(req.url).searchParams
     const id = Number(url.get("id")) || 0
     const data = await req.json()
-    await prisma.order.update({ where: { id }, data })
+    const order = await prisma.order.update({ where: { id }, data })
+    if(order.status === 'finish') {
+        sendMail(order.email!, order.id, `${order.first_name} ${order.last_name}`)
+    }
     return NextResponse.json({ result: true })
 }
 
