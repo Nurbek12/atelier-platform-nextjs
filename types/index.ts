@@ -5,6 +5,7 @@ export interface IUser {
     phone: string
     password?: string
     first_name: string
+    occupied: boolean
 
     last_name?: string
     avatar?: string

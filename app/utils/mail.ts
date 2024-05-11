@@ -32,6 +32,6 @@ export const sendMail = (email: string, order: number, client: string) => create
     subject: 'Order Status Finished',
     text: emailTemplate(order, client)
 }, (err) => {
-    if (err) return 'Error with sending'
-    else return 'Successfully sended!'
+    if (err) return console.log('Error with sending')
+    else return console.log('Successfully sended!')
 })

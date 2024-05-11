@@ -1,6 +1,7 @@
 import "../../globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { Toaster } from "@/components/ui/sonner"
 import { AdminNav } from '../../components/admin-nav'
 import { ThemeProvider } from "../../components/theme-provider"
 
@@ -35,6 +36,7 @@ export default function RootLayout({
                     </main>
                 </div>
             </div>
+            <Toaster />
         </ThemeProvider>
       </body>
     </html>

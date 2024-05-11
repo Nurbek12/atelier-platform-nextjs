@@ -1,8 +1,12 @@
 import { prisma } from '@/app/db'
 import { NextRequest, NextResponse } from "next/server"
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+    const where: any = {}
+    const url = new URL(req.url).searchParams
+    if(url.get("role")) where.role = url.get("role")
     const result = await prisma.user.findMany({
+        where,
         orderBy: { id: 'desc' }
     })
     return NextResponse.json({ result })

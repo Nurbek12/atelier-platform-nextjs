@@ -1,35 +1,23 @@
 'use client'
 
-// import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Search, Eye, Trash2, CreditCard } from 'lucide-react'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+import { Eye, Trash2 } from 'lucide-react'
 import { useEffect, useState } from "react"
-import { IOrder, IUser } from "@/types"
-import { getOrders, deleteOrder, updateOrder, deleteOrderImage } from '@/app/apiref/orders'
+import { IOrder } from "@/types"
+import { getOrders, deleteOrder, updateOrder } from '@/app/apiref/orders'
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { Separator } from '@/components/ui/separator'
-// import Image from 'next/image'
-import { getUsers } from '@/app/apiref/users'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
-export default function AdminOrders() {
+export default function TailorOrders() {
     const [dialog, setDialog] = useState(false)
     const [viewIndex, setViewIndex] = useState(-1)
     const [items, setItems] = useState<IOrder[]>([])
-    const [tailors, setTailors] = useState<IUser[]>([])
     const [getLoading, setGetLoading] = useState(false)
 
     useEffect(() => {
@@ -41,9 +29,6 @@ export default function AdminOrders() {
             setGetLoading(true)
             const { data } = await getOrders({})
             setItems(data.result)
-            
-            const t = await getUsers({ role: 'tailor' })
-            setTailors(t.data.result)
         } catch (error) {
             console.log(error)
         } finally {
@@ -51,22 +36,17 @@ export default function AdminOrders() {
         }
     }
 
-    const handleDelete = async (id: number) => {
-        if(!confirm('Do you delete this item?')) return
-        await deleteOrder(id)
-        setItems(items.filter(im => im.id !== id))
-    }
-
     const viewItem = (index: number) => {
         setViewIndex(index)
         setDialog(true)
     }
 
-    const changeOrder = async (id: number, tailor_id: any) => {
-        if(!confirm("Do you want update this order?")) return
-        await updateOrder(id, { tailor_id, status: 'process' })
-        setItems(items.map(i => i.id === id ? {...i, tailor_id, status: 'process' } as any : i))
-        toast('Succesfully changed status to process and tailor!')
+    const changeOrder = async (id: number, status: any) => {
+        if(!confirm("Do you want finish this order?")) return
+        await updateOrder(id, {status})
+        setItems(items.map(i => i.id === id ? {...i, status} as any : i))
+        toast('Succesfully changed status to finish!')
+        setDialog(false)
     }
 
     return (
@@ -83,23 +63,13 @@ export default function AdminOrders() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="hidden w-[100px] sm:table-cell">
-                                        <span>ID</span>
-                                    </TableHead>
+                                    <TableHead>ID</TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead className="hidden md:table-cell">
-                                        Email
-                                    </TableHead>
-                                    <TableHead className="hidden md:table-cell">
-                                        Phone
-                                    </TableHead>
-                                    <TableHead className="hidden md:table-cell">
-                                        Created
-                                    </TableHead>
-                                    <TableHead>
-                                        <span>Actions</span>
-                                    </TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead>Phone</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead>Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -107,31 +77,28 @@ export default function AdminOrders() {
                                 {
                                     items.map((im,i) => 
                                         <TableRow key={i}>
-                                            <TableCell className="hidden sm:table-cell">
+                                            <TableCell>
                                                 {im.id}
                                             </TableCell>
                                             <TableCell className="font-medium">
                                                 {im.first_name} {im.last_name}
                                             </TableCell>
                                             <TableCell>
-                                                <Badge className={cn({'new':'bg-blue-500 text-white','process':'bg-orange-500 text-white','finish':'bg-green-600'}[im.status], 'hover:text-black dark:hover:text-white')}>{im.status}</Badge>
+                                                <Badge className={cn({'new':'bg-blue-500 text-white','process':'bg-orange-500 text-white','finish':'bg-green-600'}[im.status || "new"], 'hover:text-black dark:hover:text-white')}>{im.status || ""}</Badge>
                                             </TableCell>
-                                            <TableCell className="hidden md:table-cell">
+                                            <TableCell>
                                                 {im.email}
                                             </TableCell>
-                                            <TableCell className="hidden md:table-cell">
+                                            <TableCell>
                                                 {im.phone}
                                             </TableCell>
-                                            <TableCell className="hidden md:table-cell">
+                                            <TableCell>
                                                 { new Date(im.created_at).toLocaleDateString() }
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2 items-center">
                                                     <Button onClick={() => viewItem(i)} size='icon'>
                                                         <Eye className="w-5 h-5" />
-                                                    </Button>
-                                                    <Button onClick={() => handleDelete(im.id)} size='icon'>
-                                                        <Trash2 className="w-5 h-5" />
                                                     </Button>
                                                 </div>
                                             </TableCell>
@@ -155,22 +122,6 @@ export default function AdminOrders() {
                                 <ul className="grid gap-3">
                                     <li className="flex items-center justify-between">
                                         <span className="text-muted-foreground">
-                                            Tailor
-                                        </span>
-                                        <div className='max-w-[300px]'>
-                                            <Select disabled={(items[viewIndex]?.id as any) === 'finish'} onValueChange={(v) => changeOrder(items[viewIndex]?.id, v)} value={items[viewIndex]?.tailor_id as any}>
-                                                <SelectTrigger className='w-full'>
-                                                    <SelectValue placeholder="Select Tailor" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    { tailors.map((tailor,index) => <SelectItem disabled={tailor.occupied} value={tailor.id as any} key={index}>{tailor.first_name} {tailor.last_name}</SelectItem>) }
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </li>
-                                    <Separator className="my-2" />
-                                    <li className="flex items-center justify-between">
-                                        <span className="text-muted-foreground">
                                             Oreder date
                                         </span>
                                         <span>{ new Date(items[viewIndex||0]?.created_at||0).toLocaleString() }</span>
@@ -180,7 +131,7 @@ export default function AdminOrders() {
                                             Order Status
                                         </span>
                                         <div className='max-w-[300px]'>
-                                            <Badge className={cn({'new':'bg-blue-500 text-white','process':'bg-orange-500 text-white','finish':'bg-green-600'}[items[viewIndex]?.status || "new"], 'hover:text-black dark:hover:text-white')}>{items[viewIndex]?.status || ""}</Badge>
+                                            <Button disabled={items[viewIndex]?.status === 'finish'} onClick={() => changeOrder(items[viewIndex]?.id, 'finish')}>Finish Order</Button>
                                         </div>
                                     </li>
                                 </ul>

@@ -30,7 +30,11 @@ export async function PUT(req: NextRequest) {
     const id = Number(url.get("id")) || 0
     const data = await req.json()
     const order = await prisma.order.update({ where: { id }, data })
+    if(order.status === 'process' && order.tailor_id) {
+        await prisma.user.update({ where: { id: order.tailor_id }, data: { occupied: true } })
+    }
     if(order.status === 'finish') {
+        if(order.tailor_id) await prisma.user.update({ where: { id: order.tailor_id }, data: { occupied: false } })
         sendMail(order.email!, order.id, `${order.first_name} ${order.last_name}`)
     }
     return NextResponse.json({ result: true })
