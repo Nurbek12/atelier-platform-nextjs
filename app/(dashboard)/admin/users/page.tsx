@@ -19,7 +19,7 @@ export default function AdminUsers() {
         phone: "",
         first_name: "",
         role: "client",
-    })
+    } as any)
     const [items, setItems] = useState<IUser[]>([])
     const [dialog, setDialog] = useState(false)
     const [getLoading, setGetLoading] = useState(false)
@@ -77,7 +77,7 @@ export default function AdminUsers() {
             last_name: "",
             password: "",
             role: "client",
-        })
+        } as any)
     }
 
     const editItem = (i: any) => {
