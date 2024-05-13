@@ -27,10 +27,10 @@ export default function About() {
                     
                     <div className="col-span-2 md:col-span-1 grid grid-cols-2 gap-4">
                         <div className="col-span-2 h-[400px]">
-                            <Image src="/nophoto.jpg" className="w-full h-full object-cover rounded" height={400} width={600} alt="image" />
+                            <Image src="/photos/fashion-designer-woman-working-studio-sitting-desk.jpg" className="w-full h-full object-cover rounded" height={400} width={600} alt="image" />
                         </div>
-                        <Image src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
-                        <Image src="/nophoto.jpg" className="col-span-1 w-full h-full object-cover rounded" alt="image" />
+                        <Image height={400} width={600} src="/photos/pexels-ron-lach-9850824.jpg" className="col-span-1 w-full h-[300px] object-cover rounded" alt="image" />
+                        <Image height={400} width={600} src="/photos/trendy-color.jpg" className="col-span-1 w-full h-[300px] object-cover rounded" alt="image" />
                     </div>
 
                 </div>

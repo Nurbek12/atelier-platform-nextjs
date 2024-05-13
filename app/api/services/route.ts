@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     if (url.get("style")) whereClause.style = { contains: url.get("style") };
     const result = await prisma.service.findMany({
         where: whereClause,
-        orderBy: { id: 'desc' },
+        orderBy: { created_at: 'desc' },
         include: {
             images: true
         }

@@ -1,11 +1,10 @@
 export function Footer() {
     return (
         <footer className="bg-background" aria-labelledby="footer-heading">
-            <h2 id="footer-heading" className="sr-only">Footer</h2>
+            {/* <h2 id="footer-heading" className="sr-only">Footer</h2> */}
             <div className="mx-auto container py-8 sm:pt-10 lg:pt-16">
-                <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+                {/* <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8">
-                        {/* <img className="h-20" src="https://aaah0mnbncqtinas.public.blob.vercel-storage.com/FX5ATkass4-no-background-VmcZHSX7xE4ng29ATNphGUdb388fxH.png" alt="Company name"> */}
                         <p className="text-sm leading-6">Making football look better to the world and a more respecful game.</p>
                         <div className="flex space-x-6">
                             <a href="#" className="text-gray-400 hover:text-gray-500">
@@ -96,9 +95,9 @@ export function Footer() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="mt-4 border-t border-gray-900/10 pt-8">
-                    <p className="text-xs leading-5 text-gray-500">&copy; 2020 Your Company, Inc. All rights reserved.</p>
+                    <p className="text-xs leading-5 text-gray-500">&copy; {new Date().getFullYear()} Couture Corner, Inc. All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -1,21 +1,24 @@
 export const nav_items = [
-    { name: 'Home', url: '/' },
-    { name: 'Catalog', url: '/catalog' },
-    { name: 'Order', url: '/order' },
-    { name: 'Contact', url: '/contact' },
-    { name: 'About Us', url: '/about' },
+    { name: 'Главная', url: '/' },
+    { name: 'Каталог', url: '/catalog' },
+    { name: 'Заказ', url: '/order' },
+    { name: 'Контакты', url: '/contact' },
+    { name: 'О нас', url: '/about' },
     { name: 'FAQ\'s', url: '/faqs' },
-    { name: 'Fit Guide', url: '/fit-guide' },
-    { name: 'Login', url: '/login' },
+    { name: 'Руководство', url: '/fit-guide' },
+    { name: 'Логин', url: '/login' },
 ]
 
 export const service_types = [
-    'Пошив одежды по индивидуальному заказу',
+    // 'Пошив одежды по индивидуальному заказу',
     'Изготовление аксессуаров (сумок, обуви, украшений и т.д.)',
-    'Создание прически и макияжа',
-    'Фотосессия',
-    'Организация мероприятий (свадьбы, юбилеи, корпоративы и т.д.)'
+    'Пошив одежды по индивидуальным меркам.',
+    'Модернизация и ремонт одежды.',
+    'Консультации по стилю и моде.',
+    'Подгонка и изменение размеров.',
+    'Изготовление аксессуаров.',
 ]
+
 export const service_styles = [
     'Классический стиль',
     'Романтический стиль',

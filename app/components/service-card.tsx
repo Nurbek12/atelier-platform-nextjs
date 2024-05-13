@@ -15,7 +15,7 @@ export function ServiceCard({ item }: { item: IService }) {
                             alt="Product image"
                             className="h-full aspect-square w-full rounded-md object-cover"
                             height="300"
-                            src={item.images?.[image].image || '/nophoto.jpg'}
+                            src={item.images?.[image]?.image || '/nophoto.jpg'}
                             width="700"
                             />
                     </div>
@@ -31,7 +31,7 @@ export function ServiceCard({ item }: { item: IService }) {
                     <span className='text-xs text-gray-700 dark:text-gray-300'>{item.type}</span>
                     <p className='mt-2 text-[14px] flex-1'>{item.description}</p>
                     <div className='flex items-center justify-between'>
-                        <span className='text-yellow-600 dark:text-yellow-400 text-xl'>{Number(item.price||100000).toLocaleString('ru-RU')} sum</span>
+                        <span className='text-yellow-600 dark:text-yellow-400 text-xl'>{Number(item.price||100000).toLocaleString('ru-RU')} сум</span>
                         <Badge>{item.style}</Badge>
                     </div>
                 </div>

@@ -7,14 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Search, PlusCircle, Pencil, Trash2, Upload } from 'lucide-react'
+import { PlusCircle, Pencil, Trash2, Upload } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { FormEvent, useState, useEffect } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 import type { IService } from '@/types'
-import { createService, deleteService, getServices, updateService, createServiceImages } from '@/app/apiref/services'
+import { createService, deleteService, getServices, updateService, createServiceImages, getServiceImages, deleteServiceImage } from '@/app/apiref/services'
 
 export default function AdminUsers() {
     const [item, setItem] = useState<IService>({
@@ -23,6 +23,7 @@ export default function AdminUsers() {
         style: "",
         title: "",
         description: "",
+        images: []
     })
     const [items, setItems] = useState<IService[]>([])
     const [dialog, setDialog] = useState(false)
@@ -73,8 +74,10 @@ export default function AdminUsers() {
             }
             
             if(files.length > 0) {
-                const { data } = await createServiceImages(id!, form_data)
-                setItems(items.map(i => i.id === id ? {...i, images: [...i.images||[] as any, ...data.result ]} as any : i))
+                await createServiceImages(id!, form_data)
+                const { data } = await getServiceImages(id!)
+                
+                setItems(items.map(i => i.id === data.result.service_id ? {...i, images: data.result } as any : i))
             }
 
             closeDialog()
@@ -107,6 +110,20 @@ export default function AdminUsers() {
         if(!confirm('Do you delete this item?')) return
         await deleteService(id)
         setItems(items.filter(im => im.id !== id))
+    }
+
+    const handleDeleteImage = async (id: number, index: number) => {
+        if(!confirm('Do you delete this image of item?')) return
+        await deleteServiceImage(id)
+        setItems(items.map(im => {
+            if(im.id === id) {
+                const updatedImages = [...im.images!];
+                updatedImages.splice(index, 1);
+                setItem({...im, images: updatedImages})
+                return {...im, images: updatedImages}
+            }
+            return im
+        }))
     }
 
     return (
@@ -267,11 +284,17 @@ export default function AdminUsers() {
                                 <label htmlFor="description">Description</label>
                                 <Textarea required onChange={e => setItem({...item, description: e.target.value})} value={item.description} className="resize-none" id="Description" placeholder="Description" rows={6} />
                             </div>
+                            {/* <div>{JSON.stringify(item.images)}</div> */}
                             {item.images?.length! > 0 && <div>
                                 <label>Images</label>
                                 <div className="grid grid-cols-4 gap-2">
                                     {
-                                        item.images?.map((img, i) => <img key={i} src={img.thumbnail} className="w-full h-full object-cover rounded" />)
+                                        item.images!.map((img, i) => <div key={i}>
+                                            <img
+                                                src={img.image}
+                                                onDoubleClick={() => handleDeleteImage(img.id!, i)}
+                                                className="w-full h-full object-cover rounded cursor-pointer border" />
+                                        </div>)
                                     }
                                 </div>
                             </div>}
@@ -279,7 +302,7 @@ export default function AdminUsers() {
                                 <input hidden id="service-create-files" type="file" multiple accept="image/*" onChange={e => pushFiles(e.target.files!)} />
                                 {
                                     files.map((f,i) => 
-                                        <Image key={i} onDoubleClick={() => setFiles(files.filter((_,j) => j !== i))} src={URL.createObjectURL(f)} className='object-cover w-full h-full rounded'
+                                        <Image key={i} onDoubleClick={() => setFiles(files.filter((_,j) => j !== i))} src={URL.createObjectURL(f)} className='object-cover w-full h-full rounded cursor-pointer'
                                             height={300} width={300} alt='image' />)
                                 }
                                 <button type="button" onClick={() => document.getElementById('service-create-files')?.click()} className="hover:bg-gray-200/30 flex aspect-square w-full items-center justify-center rounded-md border border-dashed">

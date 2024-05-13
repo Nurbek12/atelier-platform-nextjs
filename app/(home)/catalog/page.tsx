@@ -24,11 +24,11 @@ export default function Contact() {
     const [items, setItems] = useState<IService[]>([])
     
     const [filters, setFilters] = useState({
-        title: params.get('title') || '',
-        min_price: parseInt(params.get('min_price')||'0'),
-        max_price: parseInt(params.get('max_price')||'0'),
         type: params.get('type') || "",
         style: params.get('style') || "",
+        title: params.get('title') || '',
+        min_price: params.get('min_price')||'',
+        max_price: params.get('max_price')||'',
     })
 
     useEffect(() => {
@@ -71,7 +71,7 @@ export default function Contact() {
                         <Card className="mx-auto max-w-sm">
                             <CardHeader>
                                 <CardTitle className="text-xl">Filter Services</CardTitle>
-                                <CardDescription>Find services for your english</CardDescription>
+                                <CardDescription>Find services you need</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="grid gap-4">
@@ -87,16 +87,16 @@ export default function Contact() {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="grid gap-2">
-                                            <label htmlFor="min-price">Min price</label>
-                                            <Input type="number" id="min-price" placeholder="0" min={0}
-                                                value={filters.min_price}
-                                                onChange={e => setValue('min_price', +e.target.value)} />
+                                            <label htmlFor="min-price">Min price (сум)</label>
+                                            <Input id="min-price" placeholder="0"
+                                                value={filters.min_price} type="number"
+                                                onChange={e => setValue('min_price', e.target.value === '' ? '' : Number(e.target.value))} />
                                         </div>
                                         <div className="grid gap-2">
-                                            <label htmlFor="max-price">Max price</label>
-                                            <Input type="number" id="max-price" placeholder="1 000 000" min={0}
-                                                value={filters.max_price}
-                                                onChange={e => setValue('max_price', +e.target.value)} />
+                                            <label htmlFor="max-price">Max price (сум)</label>
+                                            <Input id="max-price" placeholder="1 000 000 000"
+                                                value={filters.max_price} type="number"
+                                                onChange={e => setValue('max_price', e.target.value === '' ? '' : Number(e.target.value))} />
                                         </div>
                                     </div>
                                     <div className="grid gap-2">
@@ -125,9 +125,6 @@ export default function Contact() {
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    {/* <Button type="submit" className="w-full">
-                                        Find Services
-                                    </Button> */}
                                 </div>
                                 <div className="mt-4">
                                     <p className="text-sm font-light">Не нашли нужную услугу? <Link href='/contact' className="underline">Свяжитесь с нами</Link>, и мы постараемся воплотить вашу модную мечту в жизнь!</p>

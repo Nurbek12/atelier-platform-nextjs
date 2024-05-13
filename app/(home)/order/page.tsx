@@ -39,16 +39,11 @@ const type_items = [
   "майка",
   "рубашка",
   "сумочка",
-  "туфли",
-  "ботинки",
-  "сапоги",
   "сандалии",
-  "тапочки",
   "шляпа",
   "перчатки",
   "шарф",
   "ремень",
-  "носки",
   "колготки",
   "галстук",
   "бабочка",
@@ -80,13 +75,13 @@ export default function Contact() {
         email: "",
         phone: "",
 
-        chest: 0,
-        waist: 0,
-        hips: 0,
-        sleeve: 0,
-        pr_leng: 0,
-        others: 0,
-    })
+        chest: "",
+        waist: "",
+        hips: "",
+        sleeve: "",
+        pr_leng: "",
+        others: "",
+    } as any)
     
     const pushFiles = (fls: FileList) => {
         // if(files.length >= 4) return
@@ -115,12 +110,12 @@ export default function Contact() {
             email: "",
             phone: "",
 
-            chest: 0,
-            waist: 0,
-            hips: 0,
-            sleeve: 0,
-            pr_leng: 0,
-            others: 0,
+            chest: "",
+            waist: "",
+            hips: "",
+            sleeve: "",
+            pr_leng: "",
+            others: "",
         } as any)
         setFiles([])
         setLoading(false)
@@ -146,23 +141,23 @@ export default function Contact() {
                                 <form onSubmit={handleSend} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <div className='col-span-2 md:col-span-1'>
                                         <label htmlFor="first_name">Имя</label>
-                                        <Input onChange={e => setOrder({...order,first_name:e.target.value})} value={order.first_name} 
+                                        <Input required onChange={e => setOrder({...order,first_name:e.target.value})} value={order.first_name} 
                                             id='first_name' placeholder='First Name' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
                                         <label htmlFor="last_name">Фамилия</label>
-                                        <Input onChange={e => setOrder({...order,last_name:e.target.value})} value={order.last_name}
+                                        <Input required onChange={e => setOrder({...order,last_name:e.target.value})} value={order.last_name}
                                             id='last_name' placeholder='Last Name' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Контактный телефон (optional)</label>
-                                        <Input onChange={e => setOrder({...order,phone:e.target.value})} value={order.phone}
-                                            id='last_name' placeholder='+998 00 000 00 00' />
+                                        <label htmlFor="phone">Контактный телефон (optional)</label>
+                                        <Input required onChange={e => setOrder({...order,phone:e.target.value})} value={order.phone}
+                                            id='phone' placeholder='+998 00 000 00 00' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Адрес электронной почты</label>
-                                        <Input onChange={e => setOrder({...order,email:e.target.value})} value={order.email}
-                                            id='last_name' placeholder='example@domain.com' />
+                                        <label htmlFor="email">Адрес электронной почты</label>
+                                        <Input required onChange={e => setOrder({...order,email:e.target.value})} value={order.email}
+                                            id='email' placeholder='example@domain.com' />
                                     </div>
 
                                     <div className='col-span-2 border-b'></div>
@@ -171,7 +166,7 @@ export default function Contact() {
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
                                         <label>Тип одежды</label>
-                                        <Select value={order.type_clothing} onValueChange={v => setOrder({...order, type_clothing: v})}>
+                                        <Select required value={order.type_clothing} onValueChange={v => setOrder({...order, type_clothing: v})}>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Тип одежды" />
                                             </SelectTrigger>
@@ -188,57 +183,57 @@ export default function Contact() {
                                         <h1 className='text-xl font-medium'>Размеры:</h1>
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Грудь</label>
-                                        <Input onChange={e => setOrder({...order,chest:+e.target.value})} value={order.chest}
-                                            id='last_name' placeholder='0' type='number' />
+                                        <label htmlFor="chest">Грудь (сантиметр)</label>
+                                        <Input required onChange={e => setOrder({...order,chest: e.target.value === '' ? '' : Number(e.target.value)})} value={order.chest}
+                                            id='chest' placeholder='0' type='number' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Талия</label>
-                                        <Input onChange={e => setOrder({...order,waist:+e.target.value})} value={order.waist} 
-                                            id='last_name' placeholder='0' type='number' />
+                                        <label htmlFor="waist">Талия</label>
+                                        <Input required onChange={e => setOrder({...order,waist: e.target.value === '' ? '' : Number(e.target.value)})} value={order.waist} 
+                                            id='waist' placeholder='0' type='number' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Бедра</label>
-                                        <Input onChange={e => setOrder({...order,hips:+e.target.value})} value={order.hips}
-                                            id='last_name' placeholder='0' type='number' />
+                                        <label htmlFor="hips">Бедра</label>
+                                        <Input required onChange={e => setOrder({...order, hips: e.target.value === '' ? '' : Number(e.target.value)})} value={order.hips}
+                                            id='hips' placeholder='0' type='number' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Длина рукава</label>
-                                        <Input onChange={e => setOrder({...order,sleeve:+e.target.value})} value={order.sleeve}
-                                            id='last_name' placeholder='0' type='number' />
+                                        <label htmlFor="sleeve">Длина рукава</label>
+                                        <Input required onChange={e => setOrder({...order,sleeve: e.target.value === '' ? '' : Number(e.target.value)})} value={order.sleeve}
+                                            id='sleeve' placeholder='0' type='number' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="last_name">Длина изделия</label>
-                                        <Input onChange={e => setOrder({...order,pr_leng:+e.target.value})} value={order.pr_leng}
-                                            id='last_name' placeholder='0' type='number' />
+                                        <label htmlFor="pr_leng">Длина изделия</label>
+                                        <Input required onChange={e => setOrder({...order,pr_leng: e.target.value === '' ? '' : Number(e.target.value)})} value={order.pr_leng}
+                                            id='pr_leng' placeholder='0' type='number' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
-                                        <label htmlFor="other_params">Другие параметры</label>
-                                        <Input onChange={e => setOrder({...order,others:+e.target.value})} value={order.others} 
-                                            id='other_params' placeholder='0' type='number' />
+                                        <label htmlFor="others">Другие параметры</label>
+                                        <Input required onChange={e => setOrder({...order,others: e.target.value === '' ? '' : Number(e.target.value)})} value={order.others} 
+                                            id='others' placeholder='0' type='number' />
                                     </div>
 
                                     <div className='col-span-2 md:col-span-1'>
                                         <label htmlFor="tkn">Предпочтительная ткань</label>
-                                        <Input onChange={e => setOrder({...order,preferred_fabric:e.target.value})} value={order.preferred_fabric} 
+                                        <Input required onChange={e => setOrder({...order,preferred_fabric: e.target.value === '' ? '' : Number(e.target.value)})} value={order.preferred_fabric} 
                                             id='tkn' placeholder='Example' />
                                     </div>
                                     <div className='col-span-2 md:col-span-1'>
                                         <label htmlFor="time">Удобное время для связи</label>
                                         <div className='flex gap-4'>
-                                            <Input onChange={e => setOrder({...order,contact_times_start:e.target.value})} value={order.contact_times_start} id='time' placeholder='00:00' type='time' />
-                                            <Input onChange={e => setOrder({...order,contact_times_end:e.target.value})} value={order.contact_times_end} placeholder='00:00' type='time' />
+                                            <Input required onChange={e => setOrder({...order,contact_times_start:e.target.value})} value={order.contact_times_start} id='time' placeholder='00:00' type='time' />
+                                            <Input required onChange={e => setOrder({...order,contact_times_end:e.target.value})} value={order.contact_times_end} placeholder='00:00' type='time' />
                                         </div>
                                     </div>
 
                                     <div className='col-span-2'>
                                         <label htmlFor="desc">Дополнительные требования и пожелания</label>
-                                        <Textarea onChange={e => setOrder({...order,requirements:e.target.value})} value={order.requirements} id="desc" rows={6} className='resize-none'  />
+                                        <Textarea required onChange={e => setOrder({...order,requirements:e.target.value})} value={order.requirements} id="desc" rows={6} className='resize-none'  />
                                     </div>
                                     
                                     <div className='col-span-2 border-b'></div>
                                     <div className='col-span-2'>
-                                        <h1 className='font-medium'>Прикрепить фото или эскиз:</h1>
+                                        <label htmlFor='service-create-files' className='font-medium'>Прикрепить фото или эскиз:</label>
                                     </div>
                                     <div className="grid grid-cols-2 md:grid-cols-4 place-items-center gap-2">
                                         <input hidden id="service-create-files" type="file" multiple accept="image/*" onChange={e => pushFiles(e.target.files!)} />

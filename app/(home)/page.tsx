@@ -13,21 +13,21 @@ const index_cards = [
 export default function Home() {
   return (
     <>
-      <section className="flex items-center justify-center bg-background h-screen">
-        <div className="relative items-center w-full px-5 py-12 mx-auto lg:px-16 max-w-7xl md:px-12">
-          <div className="max-w-3xl mx-auto text-center">
+      <section className="flex items-center justify-center bg-background min-h-screen">
+        <div className="relative container flex flex-col md:flex-row justify-between gap-8 items-center w-full py-24 sm:py-12">
+          <div className="md:max-w-lg">
             <div>
-              <span className="w-auto px-3 py-1 rounded border">
+              <span className="px-3 py-1 rounded border">
                 <span className="text-sm font-medium text-primary">Sort Your notes easily</span>
               </span>
 
-              <h1 className="mt-8 text-3xl font-extrabold tracking-tight lg:text-4xl">Добро пожаловать в Couture Corner!</h1>
-              <p className="max-w-4xl mx-auto mt-8 text-base lg:text-lg text-secondary-foreground">
+              <h1 className="mt-4 text-2xl font-extrabold tracking-tight lg:text-4xl">Добро пожаловать в Couture Corner!</h1>
+              <p className="max-w-4xl mx-auto mt-6 text-base lg:text-lg text-secondary-foreground">
                 Мы - команда опытных портных и дизайнеров, готовых воплотить ваши самые смелые модные идеи в реальность. Наше ателье специализируется на создании индивидуальной и качественной одежды по вашим меркам и пожеланиям.
               </p>
             </div>
 
-            <div className="flex justify-center gap-4 max-w-sm mx-auto mt-10">
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <Link href="/order">
                 <Button size="lg" className="w-full">Order a Clothing</Button>
               </Link>
@@ -35,6 +35,9 @@ export default function Home() {
                 <Button size="lg" className="w-full" variant="outline">Sign up for free</Button>
               </Link>
             </div>
+          </div>
+          <div>
+            <Image src='/photos/back-view-female-tailor-with-patterns-hands.jpg' height={800} width={800} className="w-full h-[450px] object-cover rounded" alt="Home Image" />
           </div>
         </div>
       </section>

@@ -10,6 +10,8 @@ export const deleteService = (id: number) => axios.delete('/api/services?id='+id
 
 
 
+export const getServiceImages = (id: number) => axios.get('/api/services/files?service_id='+id)
+
 export const createServiceImages = (id: number, data: any) => axios.post('/api/services/files?service_id='+id, data)
 
 export const deleteServiceImage = (id: number) => axios.delete('/api/services/files?id='+id)

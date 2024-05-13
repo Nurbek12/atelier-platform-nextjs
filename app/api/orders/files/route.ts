@@ -2,6 +2,14 @@ import { prisma } from '@/app/db'
 import { NextRequest, NextResponse } from "next/server"
 import { imgkit } from '@/app/utils/img-upload'
 
+export async function GET(req: NextRequest) {
+    const url = new URL(req.url).searchParams
+    const order_id = Number(url.get("order_id")) || 0
+
+    const result = await prisma.orderFile.findMany({ where: { order_id } })
+    return NextResponse.json({ result })
+}
+
 export async function POST(req: NextRequest) {
     try {
         const url = new URL(req.url).searchParams

@@ -2,30 +2,26 @@
 
 import Link from "next/link"
 import { ThemeToggle } from "./theme-toggle"
-import { Shirt, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { nav_items } from '@/constants'
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
 import { useState } from "react"
+import Image from "next/image"
 
 export function Navbar() {
     const pathname = usePathname()
     const [drawer, setDrawer] = useState(false)
 
     return (
-        <nav className="fixed w-full border-b backdrop-blur bg-white/80 dark:bg-black/80 z-40 h-[10vh] flex items-center">
+        //  backdrop-blur bg-white/80 dark:bg-black/80
+        <nav className="fixed w-full border-b bg-background z-40 h-[10vh] flex items-center">
             <div className="container flex items-center justify-between">
                 <Link href="/">
-                    <h1 className="flex items-center font-bold text-xl">Cou<Shirt className="w-5 h-5 text-primary" />ure Corner</h1>
+                    <Image src="/logo/dark-logo.png" height={43} width={130} alt="logo" className="w-[130] object-cover hidden dark:block"></Image>
+                    <Image src="/logo/light-logo.png" height={43} width={130} alt="logo" className="object-cover block dark:hidden"></Image>
                 </Link>
 
                 <ul className="hidden md:flex">

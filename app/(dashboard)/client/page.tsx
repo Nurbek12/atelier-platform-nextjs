@@ -9,7 +9,7 @@ import { Eye, PlusCircle, Trash2, Upload, UserCog } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FormEvent, useEffect, useState } from "react"
 import { IOrder } from "@/types"
-import { deleteOrder, createOrder, createOrderImages } from '@/app/apiref/orders'
+import { deleteOrder, createOrder, createOrderImages, getOrderImages } from '@/app/apiref/orders'
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { Separator } from '@/components/ui/separator'
@@ -118,8 +118,9 @@ export default function ClientDashboard() {
         const formdata = new FormData()
         files.map(f => formdata.append('file', f))
         if(files.length > 0) {
-            const orderImages = await createOrderImages(data.result.id, formdata)
-            setItems(items.map(i => i.id === data.result.id ? {...i, files: [...i.files||[] as any, ...orderImages.data.result ]} as any : i))
+            await createOrderImages(data.result.id, formdata)
+            const imgs = await getOrderImages(data.result.id)
+            setItems(items.map(i => i.id === data.result.id ? {...i, files: imgs.data.result } as any : i))
         }
         setOrder({
             type_clothing: "",
