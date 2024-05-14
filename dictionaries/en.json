@@ -1,0 +1,202 @@
+{
+    "nav": {
+        "home": "Home",
+        "catalog": "Catalog",
+        "order": "Order",
+        "contact": "Contacts",
+        "about": "About Us",
+        "faqs": "FAQ's",
+        "guide": "Fit Fuide",
+        "login": "Login",
+        "footer": "All rights reserved"
+    },
+    "admin-nav": {
+        "statistics": "Statistics",
+        "users": "Users",
+        "orders": "Orders",
+        "services": "Services",
+        "reviews": "Reviews",
+        "logout": "Logout"
+    },
+    "home": {
+        "toptitle": "Build your dreams easily",
+        "title": "Welcome to Couture Corner!",
+        "description": "We are a team of experienced tailors and designers ready to turn your wildest fashion ideas into reality. Our atelier specializes in creating individual and high-quality clothing according to your measurements and wishes.",
+        "order-btn": "Order services",
+        "sign-btn": "Sign Up for free",
+        "section-1-title": "Why choose us",
+        "section-1-description": "Join us today and let's create something truly unique and stylish together!",
+        "home-card-1": "Individual approach to each client",
+        "home-card-2": "High quality materials and workmanship",
+        "home-card-3": "Fast and high-quality execution of orders",
+        "home-card-4": "Convenient prices and flexible discount system",
+        "section-2-title": "Briefly about us",
+        "section-2-text": "We offer a wide range of services: from tailoring suits and dresses to repairing and modernizing your favorite clothes. Trust our professionalism and style, and we will do everything possible to make you look 100% in any situation! \n\nOur team consists of highly qualified specialists who have many years of experience in the field of tailoring and clothing design. We use only high-quality materials and modern equipment to ensure that our products are not only beautiful, but also comfortable to wear. \n\nOur company values ​​its reputation and strives for long-term cooperation with each client. We are ready to provide you with a flexible system of discounts and special offers for repeat orders. \n\nContact us today and we will help you create the look of your dreams!",
+        "contact-btn": "Contact Us"
+    },
+    "catalog": {
+        "title": "Welcome to our service catalog!",
+        "description": "Below you will find a complete list of the services we provide with a detailed description of each of them.",
+        "filter-title": "Filter Services",
+        "filter-description": "Find services you need",
+        "fiter-name": "Title",
+        "min-price": "Min price (sum)",
+        "max-price": "Max price (sum)",
+        "filter-type": "Type",
+        "filter-style": "Style",
+        "filter-footer": "Didn't find the service you need? Contact us and we will try to make your fashion dream come true!",
+        "items-not-found": "Items not found"
+    },
+    "order": {
+        "title": "Create the outfit of your dreams with our atelier",
+        "description": "Here you can order our custom tailoring service.",
+        "form-title": "Order form",
+        "order-fname": "First name",
+        "order-lname": "Last name",
+        "order-phone": "Phone number",
+        "order-email": "Email address",
+        "form-subtitle-details": "Order details",
+        "type-clothes": "Type of clothing",
+        "form-subtitle-measurements": "Dimensions",
+        "santimetr": "centimeter",
+        "chest": "Breast",
+        "waist": "Waist",
+        "hips": "Hips",
+        "sleeve": "Sleeve",
+        "pr_leng": "Wares",
+        "others": "Other options",
+        "preferred_fabric": "Preferred Fabric",
+        "contact_times": "Convenient time to contact",
+        "requirements": "Additional requirements and wishes",
+        "attach_photos": "Attach a photo or sketch",
+        "order": "Order",
+        "loading": "Loading"
+    },
+    "contact": {
+        "title": "Contact us",
+        "description": "If you have questions or suggestions, please contact us and we will respond to you as soon as possible.",
+        "info-address": "Address",
+        "info-phone": "Phone number",
+        "info-email": "Email",
+        "info-working-hours": "Opening hours",
+        "info-wk-monday": "Monday-Friday",
+        "info-wk-saturday": "Saturday",
+        "info-wk-sunday": "Sunday: Rest",
+        "info-socials": "Social media",
+        "form-title": "Thank you for your interest in our studio!",
+        "form-description": "We are happy to answer all your questions and help you with your orders.",
+        "form-fname": "First name",
+        "form-lname": "Last name",
+        "form-phone": "Phone number",
+        "form-email": "Email",
+        "form-message": "Message",
+        "form-message-placeholder": "Write a message...",
+        "form-send": "Send a message",
+        "form-sending": "Sending",
+        "form-footer": "Didn't find the service you need? Contact us and we will try to make your fashion dream come true!"
+    },
+    "about": {
+        "title": "About our studio",
+        "description": "Learn more about our team, our order creation process and our philosophy.",
+        "html": "<p>We are a team of professionals who love their work and try to create unique and high-quality products for each client. Our studio specializes in tailoring clothes to individual sizes, and we are proud that we can satisfy the most complex requests of our clients.</p><h3 class=\"my-2 text-lg font-bold\">Our team</h3><p>Our team consists of experienced designers, tailors and fashion designers who have many years of experience in the field of fashion and design. We constantly improve our skills and follow the latest trends in the fashion world in order to offer our clients only the best.</p><h3 class=\"my-2 text-lg font-bold\">Our order creation process</h3><p>Our order creation process begins with a consultation with the client, during which we discuss his wishes and preferences. Then our designers create a sketch of the future product, which is approved by the client. After this, our tailors begin sewing, using only high-quality materials and technologies. At every stage of order creation, we consult with the client to ensure that the product fully meets his expectations.</p><h3 class=\"my-2 text-lg font-bold\">Our achievements</h3><p>Over the years, we have achieved many achievements, including:</p><ul class=\"pl-6 list-disc\"><li>Creation of unique products for many famous people and brands</li><li>Participation in prestigious fashion shows and competitions</li><li>Receiving many positive reviews and thanks from our clients</li><li>Creating your own clothing brand, which is successfully sold in many countries around the world</li></ul>"
+    },
+    "faqs": {
+        "title": "Frequently asked questions and answers",
+        "description": "Below you will find a complete list of the services we provide with a detailed description of each of them."
+    },
+    "guide": {
+        "title": "Sizing and Fit Guide",
+        "description": "Welcome to our fit guide!",
+        "html": "<p>We understand that proper sizing is the key to comfortable, well-fitting clothing. That's why we've created this guide to help you accurately determine your measurements and make the ordering process simple and convenient.</p><p>What you will need:</p><ul class=\"list-disc pl-6\"><li class=\"font-light\">Pen or marker</li><li class=\"font-light\">ГFlexible measuring tape (or rope and ruler)</li><li class=\"font-light\">Paper and pen for recording results</li></ul><h1 class=\"text-xl\">How to measure:</h1><h2>1. Neck circumference</h2><p class=\"font-light text-sm\">Wrap the flexible metric tape around your neck, leaving one finger between your neck and the tape for comfort. Write down the result.</p><h2>2. Chest circumference</h2><p class=\"font-light text-sm\">Grasp the fullest part of your chest, placing the measuring tape under your arms and over your shoulder blades. Make sure the tape runs horizontally. Write down the result.</p>        <h2>3. Waist circumference</h2><p class=\"font-light text-sm\">Find the narrowest part of your waist and wrap it with a metric tape. Make sure the tape runs horizontally. Write down the result.</p><h2>4. Hip circumference</h2><p class=\"font-light text-sm\">Grasp the fullest part of your hips by passing the measuring tape across your buttocks. Make sure the tape runs horizontally. Write down the result.</p><h2>5. Sleeve length</h2><p class=\"font-light text-sm\">Measure the sleeve length from shoulder to wrist. Find the bone in your shoulder that sticks out when you lift your arm and measure from there to your wrist. Write down the result.</p><h2>6. Length of dress or skirt</h2><p class=\"font-light text-sm\">Measure from the waist to the desired length of the dress or skirt. Please note that length may vary depending on style and preference. Write down the result.</p><h2>How to use the measurement results::</h2><p class=\"font-light text-sm\">Compare your measurements to our size chart, which you can find on each product page. Choose the size that best matches your measurements. If your measurements are between sizes, we recommend choosing a larger size for comfort.</p><p>If you have questions or concerns regarding measurements or size selection, please contact us. We are always ready to help!</p><h3>Tips for measuring:</h3><ul class=\"list-disc pl-6\"><li class=\"text-sm mt-2\">It is best to measure yourself in underwear or clothes that fit your body.</li><li class=\"text-sm mt-2\">Do not tighten the metric tape too much. It should lie flat, but not compress the body.</li><li class=\"text-sm mt-2\">It is best to measure yourself with the help of another person to get the most accurate results.</li><li class=\"text-sm mt-2\">If you are pregnant or breastfeeding, we recommend choosing a size that will match your measurements after giving birth or finishing breastfeeding.</li><li class=\"text-sm mt-2\">If you are ordering clothing for a special event such as a wedding or prom, we recommend measuring yourself in advance so that you have enough time to adjust the size if necessary.</li></ul>"
+    },
+    "login": {
+        "title": "Login",
+        "description": "Enter your email below to login to your account",
+        "form-email": "Email",
+        "form-password": "Password",
+        "login-btn": "Login",
+        "form-footer": "Don't have an account?",
+        "form-sign-up": "Sign up"
+    },
+    "register": {
+        "title": "Sign Up",
+        "description": "Enter your information to create an account",
+        "form-fname": "First name",
+        "form-lname": "Last name",
+        "form-email": "Email",
+        "form-password": "Password",
+        "register-btn": "Create an account",
+        "form-footer": "Already have an account?",
+        "form-sign-up": "Sign in"
+    },
+    "client": {
+        "create-order": "Create Order",
+        "profile-settings": "Profile Settings",
+        "user-details": "User Details"
+    },
+    "admin": {
+        "total-orders": "Total Orders",
+        "total-tailors": "Tailors",
+        "total-clients": "Registered Clients",
+        "total-services": "All Services",
+        "monthly-orders": "Monthly Orders"
+    },
+    "admin-users": {
+        "add-user": "Add user",
+        "users-title": "Users",
+        "form-title": "Create/Update user",
+        "form-fname": "First name",
+        "form-lname": "Last name",
+        "form-email": "Email",
+        "form-password": "Password",
+        "form-phone": "Phone number",
+        "form-role": "Role of user",
+        "create-btn": "Create",
+        "created": "Created",
+        "actions": "Actions"
+    },
+    "admin-services": {
+        "title": "Services",
+        "add-service": "Add service",
+        "form-title": "Create/Update service",
+        "form-name": "Title",
+        "form-price": "Price",
+        "form-style": "Style",
+        "form-type": "Type",
+        "form-description": "Description",
+        "create": "Create",
+        "created": "Created",
+        "actions": "Actions"
+    },
+    "admin-orders": {
+        "title": "Orders",
+        "status": "Status",
+        "form-title": "Create Order",
+        "form-fname": "First name",
+        "form-lname": "Last name",
+        "form-email": "Email",
+        "form-password": "Password",
+        "form-phone": "Phone number",
+        "create-btn": "Create",
+        "created": "Created",
+        "actions": "Actions",
+        "order-details": "Order Details",
+        "tailor": "Tailor",
+        "order-date": "Order Date",
+        "order-status": "Order Status",
+        "new": "New",
+        "process": "Process",
+        "finish": "Finish",
+        "client-details": "Client Details",
+        "images": "Images"
+    },
+    "admin-reviews": {
+        "title": "Reviews",
+        "rate": "Rate",
+        "name": "Name",
+        "message": "Message"
+    },
+    "tailor": {
+        "finish-order": "Finish Order"
+    }
+}

@@ -1,25 +1,36 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
-import { LogOut, Shirt, ShoppingCart } from 'lucide-react'
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { ThemeToggle } from './theme-toggle'
-import { authLogout } from '@/app/apiref/auth'
+import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
+import { ThemeToggle } from './theme-toggle'
+import { usePathname } from "next/navigation"
+import { authLogout } from '@/app/apiref/auth'
+import { Button } from "@/components/ui/button"
+import { useTranslations, useLocale } from 'next-intl'
+import { LogOut, Shirt, ShoppingCart } from 'lucide-react'
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
 
+const locales = ['en', 'uz', 'ru']
 const dashboard_links = [
-    { name: "Orders", href: "/client", icon: ShoppingCart },
+    { name: "orders", href: "/client", icon: ShoppingCart },
 ]
 
 export function ClientNav() {
+    const locale = useLocale()
     const router = useRouter()
     const pathname = usePathname()
+    const t = useTranslations('admin-nav')
+
     const handleLogout = async () => {
         await authLogout()
         router.push('/')
+    }
+
+    const changeLocale = (lang: 'uz' | 'ru' | 'en') => {
+        const newpath = pathname.replace('/'+locale, '')
+        router.replace(`/${lang}${newpath}`)
     }
 
     return (
@@ -35,19 +46,33 @@ export function ClientNav() {
                         dashboard_links.map((item,index) => 
                             <Tooltip key={index}>
                                 <TooltipTrigger asChild>
-                                    <Link href={item.href}>
-                                        <Button variant="ghost" size="icon" className={cn("rounded-lg", pathname===item.href?'bg-muted':'')} aria-label="Playground">
+                                    <Link href={'/'+locale+item.href}>
+                                        <Button variant="ghost" size="icon" className={cn("rounded-lg", pathname===`/${locale}${item.href}`?'bg-muted':'')} aria-label="Playground">
                                             <item.icon className="size-5" />
                                         </Button>
                                     </Link>
                                 </TooltipTrigger>
-                                <TooltipContent side="right" sideOffset={5}>{item.name}</TooltipContent>
+                                <TooltipContent side="right" sideOffset={5}>{t(item.name)}</TooltipContent>
                             </Tooltip>)
                     }
                 </TooltipProvider>
             </nav>
             <nav className="mt-auto grid gap-1 p-2">
                 <ThemeToggle></ThemeToggle>
+                <Popover>
+                    <PopoverTrigger>
+                        <div className="w-[40px] h-[40px] rounded flex justify-center items-center border cursor-pointer">
+                            {locale.toLocaleUpperCase()}
+                        </div>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <div className="flex flex-col gap-2">
+                            {
+                                locales.map(l => <Button key={l} onClick={() => changeLocale(l as 'uz')} size='sm' variant={l===locale?'default':'outline'} className="uppercase">{l}</Button>)
+                            }
+                        </div>
+                    </PopoverContent>
+                </Popover>
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>

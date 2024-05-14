@@ -1,29 +1,52 @@
-import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
 import { isAuthenticated } from '@/app/utils/jwt'
+import createMiddleware from 'next-intl/middleware'
+import { type NextRequest, NextResponse } from 'next/server'
  
-export default async function middleware(request: NextRequest) {
-  const token = request.cookies.get('token')
+const intlMiddleware = createMiddleware({
+  locales: ['en', 'ru', 'uz'],
+  defaultLocale: 'ru',
+})
 
-  if(!token?.value) {
-    NextResponse.json({}).cookies.delete('token')
-    request.cookies.delete('token')
-    return NextResponse.redirect(new URL('/login', request.url))
+export default async function middleware(request: NextRequest) {
+  const token = request.cookies.get('token');
+
+  // Get the locale from the request URL
+  const locale = request.nextUrl.pathname.split('/')[1] || 'ru';
+
+  // Check if the request URL is for a protected route
+  const isProtectedRoute =
+    request.nextUrl.pathname.startsWith(`/${locale}/client`) ||
+    request.nextUrl.pathname.startsWith(`/${locale}/admin`) ||
+    request.nextUrl.pathname.startsWith(`/${locale}/tailor`);
+
+  if (isProtectedRoute) {
+    // console.log(request.nextUrl.pathname);
+    
+    if (!token?.value) {
+      NextResponse.json({}).cookies.delete('token');
+      request.cookies.delete('token');
+      return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    }
+
+    const b = await isAuthenticated(token.value);
+    if (!b) {
+      NextResponse.json({}).cookies.delete('token');
+      request.cookies.delete('token');
+      return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    }
   }
-  
-  const b = await isAuthenticated(token.value)
-  if(!b) {
-    NextResponse.json({}).cookies.delete('token')
-    request.cookies.delete('token')
-    return NextResponse.redirect(new URL('/login', request.url))
+
+  const response = intlMiddleware(request);
+
+  // Check if response is already handled by intl middleware
+  if (response) {
+    return response;
   }
 }
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/client/:path*',
-    '/tailor/:path*',
-    // '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+    '/:path',
+    '/(en|ru|uz)/:path*'
+  ]
 }

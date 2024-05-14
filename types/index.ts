@@ -27,30 +27,6 @@ export interface IUser {
     updated_at?: string
 }
 
-export interface ITypeClothing {
-    id: number
-
-    name: string
-    image: string
-    
-    created_at: string
-    updated_at: string
-}
-
-export interface IMeansure {
-    id: number
-
-    chest: number
-    waist: number
-    hips: number
-    sleeve: number
-    pr_leng: number
-    others: number
-
-    created_at: string
-    updated_at: string
-}
-
 export interface IOrder {
     id: number
 
@@ -111,23 +87,18 @@ export interface IReview {
     updated_at: string
 }
 
-export interface ITransaction {
-    id: number
-
-    
-    
-    created_at: string
-    updated_at: string
-}
-
 export interface IService {
     id?: number
 
-    title: string
+    title_en: string
+    title_uz: string
+    title_ru: string
     price: number
     style: string
     type: string
-    description: string
+    description_en: string
+    description_uz: string
+    description_ru: string
 
     images?: IServiceImage[]
     

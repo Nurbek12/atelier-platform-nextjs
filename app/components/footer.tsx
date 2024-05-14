@@ -1,4 +1,7 @@
+import { useTranslations } from "next-intl"
+
 export function Footer() {
+    const t = useTranslations('nav')
     return (
         <footer className="bg-background" aria-labelledby="footer-heading">
             {/* <h2 id="footer-heading" className="sr-only">Footer</h2> */}
@@ -97,7 +100,7 @@ export function Footer() {
                     </div>
                 </div> */}
                 <div className="mt-4 border-t border-gray-900/10 pt-8">
-                    <p className="text-xs leading-5 text-gray-500">&copy; {new Date().getFullYear()} Couture Corner, Inc. All rights reserved.</p>
+                    <p className="text-xs leading-5 text-gray-500">&copy; {new Date().getFullYear()} Couture Corner, Inc. {t('footer')}.</p>
                 </div>
             </div>
         </footer>

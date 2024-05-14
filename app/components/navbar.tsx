@@ -1,34 +1,48 @@
 'use client'
 
 import Link from "next/link"
-import { ThemeToggle } from "./theme-toggle"
+import Image from "next/image"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 import { Menu } from 'lucide-react'
 import { nav_items } from '@/constants'
-import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { ThemeToggle } from "./theme-toggle"
 import { Button } from "@/components/ui/button"
+import { useTranslations, useLocale } from "next-intl"
+import { usePathname, useRouter } from "next/navigation"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
-import { useState } from "react"
-import Image from "next/image"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export function Navbar() {
+    const router = useRouter()
+    const locale = useLocale()
     const pathname = usePathname()
+    const t = useTranslations('nav')
+    const locales = ['uz','ru','en']
     const [drawer, setDrawer] = useState(false)
 
+    const changeLocale = (lang: 'uz' | 'ru' | 'en') => {
+        const newpath = pathname.replace('/'+locale, '')
+        router.replace(`/${lang}${newpath}`)
+    }
+
     return (
-        //  backdrop-blur bg-white/80 dark:bg-black/80
-        <nav className="fixed w-full border-b bg-background z-40 h-[10vh] flex items-center">
+        <nav className="fixed w-full border-b overflow-hidden bg-background z-40 h-[10vh] flex items-center">
             <div className="container flex items-center justify-between">
-                <Link href="/">
-                    <Image src="/logo/dark-logo.png" height={43} width={130} alt="logo" className="w-[130] object-cover hidden dark:block"></Image>
-                    <Image src="/logo/light-logo.png" height={43} width={130} alt="logo" className="object-cover block dark:hidden"></Image>
+                <Link href={"/"+locale} className="overflow-hidden">
+                    <div className="h-[70px] w-[140px]">
+                        <Image src="/logo/dark.svg" height={60} width={130} alt="logo" className="object-cover hidden dark:block"></Image>
+                        <Image src="/logo/light.svg" height={60} width={130} alt="logo" className="object-cover block dark:hidden"></Image>
+                    </div>
                 </Link>
 
                 <ul className="hidden md:flex">
                     {
                         nav_items.map((item,index) => <li key={index}>
-                            <Link href={item.url}>
-                                <span className={cn("text-sm px-5 py-1.5 rounded", pathname === item.url ? 'bg-secondary-foreground/10' : '')}>{item.name}</span>
+                            <Link href={`/${locale}${item.url}`}>
+                                <span className={cn("text-sm px-5 py-1.5 rounded", pathname === `/${locale}${item.url === '/' ? item.url.replace('/','') : item.url}` ? 'bg-secondary-foreground/10' : '')}>
+                                    {t(item.name)}
+                                </span>
                             </Link>
                         </li>)
                     }                    
@@ -39,6 +53,18 @@ export function Navbar() {
                     <Button onClick={() => setDrawer(true)} className="md:hidden" variant='outline' size='icon'>
                         <Menu className="size-5" />
                     </Button>
+                    <Select onValueChange={(e: 'uz') => changeLocale(e)} value={locale}>
+                        <SelectTrigger className="w-[65px]">
+                            <SelectValue placeholder={locale.toLocaleUpperCase()} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {
+                                locales.map(l => <SelectItem value={l} key={l}>
+                                    <span className="uppercase">{l}</span>
+                                </SelectItem>)
+                            }
+                        </SelectContent>
+                    </Select>
                     <ThemeToggle></ThemeToggle>
                 </div>
             </div>
@@ -49,8 +75,8 @@ export function Navbar() {
                         <ul className="flex flex-col gap-2 py-4">
                             {
                                 nav_items.map((item,index) => <li className="w-full" key={index}>
-                                    <Link href={item.url} onClick={() => setDrawer(false)} className="w-full flex">
-                                        <span className={cn("text-sm px-5 py-3 rounded w-full", pathname === item.url ? 'bg-secondary-foreground/10' : '')}>{item.name}</span>
+                                    <Link href={`/${locale}${item.url}`} onClick={() => setDrawer(false)} className="w-full flex">
+                                        <span className={cn("text-sm px-5 py-3 rounded w-full", pathname === `/${locale}${item.url === '/' ? item.url.replace('/','') : item.url}` ? 'bg-secondary-foreground/10' : '')}>{t(item.name)}</span>
                                     </Link>
                                 </li>)
                             }                    

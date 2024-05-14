@@ -1,10 +1,11 @@
-import Image from 'next/image'
 import type { IService } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
+import { useLocale } from 'next-intl'
 
 export function ServiceCard({ item }: { item: IService }) {
+    const locale = useLocale()
     const [image, setImage] = useState(0)
     return (
         <div className='p-4 rounded-xl border'>
@@ -27,9 +28,9 @@ export function ServiceCard({ item }: { item: IService }) {
                 </div>
 
                 <div className='flex-1 flex flex-col gap-1'>
-                    <h1 className='font-medium text-lg'>{item.title}</h1>
+                    <h1 className='font-medium text-lg'>{item[`title_${locale as 'uz'}`]}</h1>
                     <span className='text-xs text-gray-700 dark:text-gray-300'>{item.type}</span>
-                    <p className='mt-2 text-[14px] flex-1'>{item.description}</p>
+                    <p className='mt-2 text-[14px] flex-1'>{item[`description_${locale as 'uz'}`]}</p>
                     <div className='flex items-center justify-between'>
                         <span className='text-yellow-600 dark:text-yellow-400 text-xl'>{Number(item.price||100000).toLocaleString('ru-RU')} сум</span>
                         <Badge>{item.style}</Badge>

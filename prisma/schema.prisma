@@ -104,11 +104,17 @@ model Review {
 model Service {
   id Int @id @default(autoincrement())
 
-  title String
+  title_uz String
+  title_ru String
+  title_en String
+
   price Int
   style String
   type String
-  description String
+  
+  description_uz String
+  description_ru String
+  description_en String
 
   images ServiceImage[]
   

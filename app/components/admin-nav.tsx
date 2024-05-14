@@ -1,29 +1,41 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
-import { BarChartBig, LogOut, MessageCircle, Shirt, User, ShoppingCart, BriefcaseBusinessIcon, Briefcase } from 'lucide-react'
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { ThemeToggle } from '../components/theme-toggle'
-import { authLogout } from '@/app/apiref/auth'
+import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
+import { usePathname } from "next/navigation"
+import { authLogout } from '@/app/apiref/auth'
+import { Button } from "@/components/ui/button"
+import { useTranslations, useLocale } from 'next-intl'
+import { ThemeToggle } from '../components/theme-toggle'
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip"
+import { BarChartBig, LogOut, MessageCircle, Shirt, User, ShoppingCart, BriefcaseBusinessIcon } from 'lucide-react'
 
+const locales = ['en', 'uz', 'ru']
 const dashboard_links = [
-    { name: "Statistics", href: "/admin", icon: BarChartBig },
-    { name: "Clients", href: "/admin/users", icon: User },
-    { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-    { name: "Services", href: "/admin/services", icon: BriefcaseBusinessIcon },
-    { name: "Messages", href: "/admin/reviews", icon: MessageCircle },
+    { name: "statistics", href: "/admin", icon: BarChartBig },
+    { name: "users", href: "/admin/users", icon: User },
+    { name: "orders", href: "/admin/orders", icon: ShoppingCart },
+    { name: "services", href: "/admin/services", icon: BriefcaseBusinessIcon },
+    { name: "reviews", href: "/admin/reviews", icon: MessageCircle },
 ]
+
 
 export function AdminNav() {
     const router = useRouter()
+    const locale = useLocale()
     const pathname = usePathname()
+    const t = useTranslations('admin-nav')
+
     const handleLogout = async () => {
         await authLogout()
         router.push('/')
+    }
+
+    const changeLocale = (lang: 'uz' | 'ru' | 'en') => {
+        const newpath = pathname.replace('/'+locale, '')
+        router.replace(`/${lang}${newpath}`)
     }
 
     return (
@@ -39,19 +51,33 @@ export function AdminNav() {
                         dashboard_links.map((item,index) => 
                             <Tooltip key={index}>
                                 <TooltipTrigger asChild>
-                                    <Link href={item.href}>
-                                        <Button variant="ghost" size="icon" className={cn("rounded-lg", pathname===item.href?'bg-muted':'')} aria-label="Playground">
+                                    <Link href={'/'+locale+item.href}>
+                                        <Button variant="ghost" size="icon" className={cn("rounded-lg", pathname===`/${locale}${item.href}`?'bg-muted':'')} aria-label="Playground">
                                             <item.icon className="size-5" />
                                         </Button>
                                     </Link>
                                 </TooltipTrigger>
-                                <TooltipContent side="right" sideOffset={5}>{item.name}</TooltipContent>
+                                <TooltipContent side="right" sideOffset={5}>{t(item.name)}</TooltipContent>
                             </Tooltip>)
                     }
                 </TooltipProvider>
             </nav>
             <nav className="mt-auto grid gap-1 p-2">
                 <ThemeToggle></ThemeToggle>
+                <Popover>
+                    <PopoverTrigger>
+                        <div className="w-[40px] h-[40px] rounded flex justify-center items-center border cursor-pointer">
+                            {locale.toLocaleUpperCase()}
+                        </div>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <div className="flex flex-col gap-2">
+                            {
+                                locales.map(l => <Button key={l} onClick={() => changeLocale(l as 'uz')} size='sm' variant={l===locale?'default':'outline'} className="uppercase">{l}</Button>)
+                            }
+                        </div>
+                    </PopoverContent>
+                </Popover>
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -59,7 +85,7 @@ export function AdminNav() {
                                 <LogOut className="size-5" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent side="right" sideOffset={5}>Account</TooltipContent>
+                        <TooltipContent side="right" sideOffset={5}>{t('logout')}</TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </nav>
