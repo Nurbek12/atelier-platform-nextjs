@@ -36,7 +36,7 @@ export function Navbar() {
                     </div>
                 </Link>
 
-                <ul className="hidden md:flex">
+                <ul className="hidden lg:flex">
                     {
                         nav_items.map((item,index) => <li key={index}>
                             <Link href={`/${locale}${item.url}`}>
@@ -50,7 +50,7 @@ export function Navbar() {
 
 
                 <div className="flex items-center gap-2">
-                    <Button onClick={() => setDrawer(true)} className="md:hidden" variant='outline' size='icon'>
+                    <Button onClick={() => setDrawer(true)} className="lg:hidden" variant='outline' size='icon'>
                         <Menu className="size-5" />
                     </Button>
                     <Select onValueChange={(e: 'uz') => changeLocale(e)} value={locale}>

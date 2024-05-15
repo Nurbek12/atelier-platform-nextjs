@@ -185,8 +185,8 @@
         "order-date": "Buyurtma sanasi",
         "order-status": "Buyurtma holati",
         "new": "Yangi",
-        "process": "Jarayon",
-        "finish": "Tugatish",
+        "process": "Jarayonda",
+        "finish": "Tugatildi",
         "client-details": "Mijoz tafsilotlari",
         "images": "Tasvirlar"
     },

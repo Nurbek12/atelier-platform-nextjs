@@ -53,7 +53,7 @@ export default function TailorOrders() {
         toast({
             en:'Succesfully changed status to finish!',
             ru:'Статус успешно изменен, чтобы закончить!',
-            uz: 'Tugatish uchun holat muvaffaqiyatli o\'zgartirildi!',
+            uz: 'Buyurtma muvofaqqiyatli yakunlandi!',
           }[locale as 'en'])
         setDialog(false)
     }

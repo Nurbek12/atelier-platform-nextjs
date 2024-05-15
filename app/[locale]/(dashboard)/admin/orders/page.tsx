@@ -62,9 +62,9 @@ export default function AdminOrders() {
         await updateOrder(id, { tailor_id, status: 'process' })
         setItems(items.map(i => i.id === id ? {...i, tailor_id, status: 'process' } as any : i))
         toast({
-            en:'Succesfully changed status to process and tailor!',
-            ru:'Статус успешно изменен на обработку и адаптацию!',
-            uz: 'Maqomini qayta ishlash va moslashtirish uchun muvaffaqiyatli o\'zgartirildi!',
+            en:'Succesfully changed status to process!',
+            ru:'Статус успешно изменен на обработку!',
+            uz: 'Buyurtma xolati muvofaqqiyatli o\'zgartirildi!',
           }[locale as 'en'])
     }
 
