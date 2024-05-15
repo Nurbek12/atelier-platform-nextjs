@@ -65,7 +65,7 @@ export const serviceTypes = [
         uz: 'Aksessuarlar ishlab chiqarish',
         en: 'Accessories manufacturing',
       },
-      slug: 'accessories-manufacturing',
+      slug: 'accessories-manufacturing-1',
     },
 ]
 

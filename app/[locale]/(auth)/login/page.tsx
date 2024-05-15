@@ -25,7 +25,11 @@ export default function Login() {
       e.preventDefault()
       const { data } = await authLogin(loginData)
       
-      if(data.result === false) toast('Email or Password incorrect')
+      if(data.result === false) toast({
+        en:'Email or Password incorrect!',
+        ru:'Неверный электронная почта или пароль',
+        uz: 'Elektron pochta yoki parol noto\'g\'ri',
+    }[locale as 'en'])
       else if(data.result.user?.role) {
         router.push('/'+locale+'/'+data.result.user.role)
       }

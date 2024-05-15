@@ -28,9 +28,17 @@ export default function Register() {
             e.preventDefault()
             const { data } = await createUser(loginData)
             
-            if(data.result === false) toast('This email already used!')
+            if(data.result === false) toast({
+                en:'This email already used!',
+                ru:'Этот адрес электронной почты уже использован!',
+                uz: 'Bu email allaqachon ishlatilgan!',
+            }[locale as 'en'])
             else {
-                toast('Successfully registered!')
+                toast({
+                    en:'Successfully registered!',
+                    ru:'Успешно зарегистрирован!',
+                    uz: 'Muvaffaqiyatli ro\'yxatdan o\'tdingiz!',
+                }[locale as 'en'])
                 router.push('/'+locale+'/login')
             }
         } catch (error) {

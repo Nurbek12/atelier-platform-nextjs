@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 export default function TailorOrders() {
-    // const locale = useLocale()
+    const locale = useLocale()
     const t1 = useTranslations('order')
     const t2 = useTranslations('tailor')
     const t = useTranslations('admin-orders')
@@ -50,7 +50,11 @@ export default function TailorOrders() {
         if(!confirm("Do you want finish this order?")) return
         await updateOrder(id, {status})
         setItems(items.map(i => i.id === id ? {...i, status} as any : i))
-        toast('Succesfully changed status to finish!')
+        toast({
+            en:'Succesfully changed status to finish!',
+            ru:'Статус успешно изменен, чтобы закончить!',
+            uz: 'Tugatish uchun holat muvaffaqiyatli o\'zgartirildi!',
+          }[locale as 'en'])
         setDialog(false)
     }
 

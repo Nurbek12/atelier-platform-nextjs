@@ -377,7 +377,7 @@ const typeItems = [
 ]
 
 export default function ClientDashboard() {
-    let defaultUser = {}
+    let defaultUser: any = {}
     const locale = useLocale()
     const t1 = useTranslations('order')
     const t2 = useTranslations('client')
@@ -421,15 +421,18 @@ export default function ClientDashboard() {
         e.preventDefault()
         setLoading(true)
         const { data } = await createOrder(order)
-        // console.log(data)
-        setItems([...items, data.result])
+        let fls = []
+        // setItems([...items, data.result])
         const formdata = new FormData()
         files.map(f => formdata.append('file', f))
         if(files.length > 0) {
-            await createOrderImages(data.result.id, formdata)
-            const imgs = await getOrderImages(data.result.id)
-            setItems(items.map(i => i.id === data.result.id ? {...i, files: imgs.data.result } as any : i))
+          await createOrderImages(data.result.id, formdata)
+          const imgs = await getOrderImages(data.result.id)
+          fls = imgs.data.result
+          // setItems(items.map(i => i.id === data.result.id ? {...i, files: imgs.data.result } as any : i))
         }
+        setItems([...items, {...data.result, files: fls}]);
+        delete defaultUser.role;
         setOrder({
             type_clothing: "",
             preferred_fabric: "",
@@ -455,7 +458,11 @@ export default function ClientDashboard() {
         setFiles([])
         setLoading(false)
         setDialog1(false)
-        toast('Successfull Sended!')
+        toast({
+          en:'Successfull Sended!',
+          ru:'Успешно отправлено!',
+          uz: 'Muvaffaqiyatli yuborildi!',
+        }[locale as 'en'])
     }
 
     useEffect(() => {
@@ -510,7 +517,11 @@ export default function ClientDashboard() {
             await updateUser(id, others)
             setUserDialog(false)
             setOrder({...order, ...others})
-            toast('Succesfully edited user details')
+            toast({
+              en:'Succesfully edited user details!',
+              ru:'Данные пользователя успешно изменены.!',
+              uz: 'Foydalanuvchi tafsilotlari muvaffaqiyatli tahrirlandi!',
+            }[locale as 'en'])
         } catch (error) {
             console.log(error)
         } finally {
@@ -715,7 +726,6 @@ export default function ClientDashboard() {
                                     </div>
                                 </>
                             }
-
                         </CardContent>
                     </Card>
                 </DialogContent>

@@ -69,8 +69,8 @@ export default function Contact() {
                     <p className="mt-4 max-w-2xl text-base mx-auto">{t('description')}</p>
                 </div>
                 <div className="flex flex-col md:flex-row gap-4">
-                    <div className="md:max-w-[400px]">
-                        <Card className="mx-auto max-w-sm">
+                    <div className="w-full md:max-w-[400px]">
+                        <Card className="mx-auto md:max-w-sm">
                             <CardHeader>
                                 <CardTitle className="text-xl">{t('filter-title')}</CardTitle>
                                 <CardDescription>{t('filter-description')}</CardDescription>

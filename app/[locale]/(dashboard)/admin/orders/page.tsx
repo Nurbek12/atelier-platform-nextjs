@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { IOrder, IUser } from "@/types"
 import { Eye, Trash2 } from 'lucide-react'
 import { useEffect, useState } from "react"
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import { getUsers } from '@/app/apiref/users'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function AdminOrders() {
+    const locale = useLocale()
     const t1 = useTranslations('order')
     const t = useTranslations('admin-orders')
     const [dialog, setDialog] = useState(false)
@@ -60,7 +61,11 @@ export default function AdminOrders() {
         if(!confirm("Do you want update this order?")) return
         await updateOrder(id, { tailor_id, status: 'process' })
         setItems(items.map(i => i.id === id ? {...i, tailor_id, status: 'process' } as any : i))
-        toast('Succesfully changed status to process and tailor!')
+        toast({
+            en:'Succesfully changed status to process and tailor!',
+            ru:'Статус успешно изменен на обработку и адаптацию!',
+            uz: 'Maqomini qayta ishlash va moslashtirish uchun muvaffaqiyatli o\'zgartirildi!',
+          }[locale as 'en'])
     }
 
     return (

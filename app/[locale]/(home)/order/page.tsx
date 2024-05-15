@@ -430,7 +430,11 @@ export default function Contact() {
         } as any)
         setFiles([])
         setLoading(false)
-        toast('Successfull Sended!')
+        toast({
+          en:'Successfull Sended!',
+          ru:'Успешно отправлено!',
+          uz: 'Muvaffaqiyatli yuborildi!',
+        }[locale as 'en'])
     }
 
     return (

@@ -152,7 +152,10 @@ export default function AdminUsers() {
                     </CardContent>
                 </Card>
             </div>
-            <Dialog open={dialog} onOpenChange={(o) => setDialog(o)}>
+            <Dialog open={dialog} onOpenChange={(o) => {
+                if(!o) closeDialog()
+                setDialog(o)
+                }}>
                 <DialogContent style={{ maxHeight: '95vh', overflow: 'auto' }}>
                     <DialogHeader>
                         <DialogTitle>{t('form-title')}</DialogTitle>

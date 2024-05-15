@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from "@/components/ui/textarea"
 import { useTranslations, useLocale } from 'next-intl'
 import { FormEvent, useState, useEffect } from "react"
-import { serviceStyles, serviceTypes, service_styles, service_types } from '@/constants'
+import { serviceStyles, serviceTypes } from '@/constants'
 import { PlusCircle, Pencil, Trash2, Upload } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -29,8 +29,7 @@ export default function AdminUsers() {
         title_ru: "",
         description_ru: "",
         description_uz: "",
-        description_en: "",
-        images: []
+        description_en: ""
     })
     const [items, setItems] = useState<IService[]>([])
     const [dialog, setDialog] = useState(false)
@@ -65,26 +64,33 @@ export default function AdminUsers() {
         files.map(f => form_data.append('file', f))
         
         try {
-            let id: number | null = null
             setPostLoading(true)
-            delete item.images
             if(item.id) {
-                id = item.id
-                delete item.id
-                const { data } = await updateService(id, item)
+                const { id, images, ...other } = item
+                const { data } = await updateService(id, other)
                 setItems(items.map(i => i.id === id ? data.result : i))
+
+                if(files.length > 0) {
+                    await createServiceImages(id!, form_data)
+                    const imgs = await getServiceImages(id!)
+
+                    setItems(items.map(i => {
+                        if(i.id === id) return {...i, images: imgs.data.result }
+                        else return i
+                    }))
+                }
             } else {
                 const { data } = await createService(item)
-                setItems([...items, data.result])
-                id = data.result.id
+                let images = []
+                
+                if(files.length > 0) {
+                    await createServiceImages(data.result.id!, form_data)
+                    const imgs = await getServiceImages(data.result.id!)
+                    images = imgs.data.result
+                }
+                setItems([...items, {...data.result, images}])
             }
             
-            if(files.length > 0) {
-                await createServiceImages(id!, form_data)
-                const { data } = await getServiceImages(id!)
-                
-                setItems(items.map(i => i.id === data.result.service_id ? {...i, images: data.result } as any : i))
-            }
 
             closeDialog()
         } catch (error) {
@@ -180,10 +186,14 @@ export default function AdminUsers() {
                                                 {im.price}
                                             </TableCell>
                                             <TableCell>
-                                                <Badge>{im.type}</Badge>
+                                                <Badge>{
+                                                   serviceTypes.find(s => s.slug === im.type)?.title?.[locale as 'uz'] 
+                                                }</Badge>
                                             </TableCell>
                                             <TableCell>
-                                                <Badge>{im.style}</Badge>
+                                                <Badge>{
+                                                   serviceStyles.find(s => s.slug === im.style)?.title?.[locale as 'uz'] 
+                                                }</Badge>
                                             </TableCell>
                                             <TableCell>
                                                 { new Date(im.created_at!).toLocaleDateString() }
@@ -206,7 +216,10 @@ export default function AdminUsers() {
                     </CardContent>
                 </Card>
             </div>
-            <Dialog open={dialog} onOpenChange={(o) => setDialog(o)}>
+            <Dialog open={dialog} onOpenChange={(o) => {
+                if(!o) closeDialog()
+                setDialog(o)
+                }}>
                 <DialogContent style={{ maxHeight: '95vh', overflow: 'auto' }}>
                     <DialogHeader>
                         <DialogTitle>{t('form-title')}</DialogTitle>

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { useState } from "react"
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -22,6 +22,7 @@ const social_items = [
 ]
 
 export default function Contact() {
+    const locale = useLocale()
     const t = useTranslations('contact')
     const [loading, setLoading] = useState(false)
     const [review, setReview] = useState({
@@ -46,7 +47,11 @@ export default function Contact() {
             rate: 1
         })
         setLoading(false)
-        toast('Successfull Sended!')
+        toast({
+            en:'Successfull Sended!',
+            ru:'Успешно отправлено!',
+            uz: 'Muvaffaqiyatli yuborildi!',
+        }[locale as 'en'])
     }
 
     return (
@@ -152,7 +157,7 @@ export default function Contact() {
                                 </div>
                                 <div className="flex py-2 items-center gap-2">
                                     {
-                                        Array(5).fill(0).map((_,i) => <Star key={i} className={cn('cursor-pointer hover:opacity-100', i > review.rate ? 'opacity-50' : '')} onClick={() => setReview({...review, rate: i})} />)
+                                        Array(5).fill(0).map((_,i) => <Star key={i}  fill="rgb(245 158 11 / 1)" className={cn('text-amber-500 cursor-pointer hover:opacity-100', i > review.rate ? 'opacity-50' : '')} onClick={() => setReview({...review, rate: i})} />)
                                     }
                                 </div>
                                 <Button disabled={loading} type="submit" className="w-full">

@@ -12,11 +12,6 @@ export const sendMail = (to: string, subject: string, text: string) => createTra
     subject,
     text
 }, (err) => {
-    console.log(to)
-    console.log(subject)
-    console.log(text)
-    console.log(process.env.EMAILUSER, process.env.EMAILPASSWORD)
-
     if (err) return console.log('Error with sending')
     else return console.log('Successfully sended!')
 })
